@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://u1flujsyt6yl"]
+
+[ext_resource type="Script" uid="uid://crjvdq80tr322" path="res://Shapes/CustomShape.cs" id="1_ayhff"]
+
+[node name="Star" type="CollisionPolygon2D"]
+polygon = PackedVector2Array(1, -104, 26, -26, 137, -36, 34, 67, 102, 180, -3, 118, -132, 186, -44, 67, -156, -4, -52, -29)
+script = ExtResource("1_ayhff")
+metadata/_custom_type_script = "uid://crjvdq80tr322"
+
+[node name="shape" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(1, -104, 26.3337, -25.9825, 137, -36, 33, 67, 101, 178, -3, 118, -132, 185, -43, 66, -155, -4, -53.3613, -28.4956)

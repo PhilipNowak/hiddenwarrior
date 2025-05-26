@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqeb43rfc0oip"]
+
+[ext_resource type="Script" uid="uid://rd07cxvpnhct" path="res://Player/Player.cs" id="1_onrkg"]
+[ext_resource type="PackedScene" uid="uid://bloweor6ohwqe" path="res://Shapes/Square.tscn" id="2_btcbx"]
+[ext_resource type="Script" uid="uid://f5gimhpwj61j" path="res://Player/Stats.cs" id="3_btcbx"]
+[ext_resource type="Script" uid="uid://c7l0sbwxdgpyn" path="res://addons/BulletUpHell/Nodes/BuHSpawnPoint.gd" id="4_gwnis"]
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("CustomShape")]
+script = ExtResource("1_onrkg")
+CustomShape = NodePath("Square")
+
+[node name="Square" parent="." instance=ExtResource("2_btcbx")]
+
+[node name="Stats" type="Node" parent="."]
+script = ExtResource("3_btcbx")
+
+[node name="SpawnPoint" type="Node2D" parent="."]
+position = Vector2(0, -56)
+script = ExtResource("4_gwnis")
+auto_pattern_id = "circle"
+r_active_chances = 1.0
+r_rotating_variation = Vector3(0, 0, 0)
+r_pattern_choice = ""
+r_start_time_choice = ""
+r_start_time_variation = Vector3(0, 0, 0)
+r_start_distance_choice = ""
+r_start_distance_variation = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://c7l0sbwxdgpyn"

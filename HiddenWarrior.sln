@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenWarrior", "HiddenWarrior.csproj", "{CAC74C95-D8BE-4285-930A-5C213ADF8471}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CAC74C95-D8BE-4285-930A-5C213ADF8471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC74C95-D8BE-4285-930A-5C213ADF8471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC74C95-D8BE-4285-930A-5C213ADF8471}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{CAC74C95-D8BE-4285-930A-5C213ADF8471}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{CAC74C95-D8BE-4285-930A-5C213ADF8471}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{CAC74C95-D8BE-4285-930A-5C213ADF8471}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal

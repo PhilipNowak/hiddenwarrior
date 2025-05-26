@@ -1,0 +1,462 @@
+@icon("res://addons/BulletUpHell/Sprites/NodeIcons22.png")
+@tool
+extends Area2D
+class_name LaserBeam
+
+signal collided(global_position:Vector2, collider:Node, normal:Vector2, full_length:float, laser:LaserBeam)
+signal ray_built
+signal laser_built
+
+const INFINITE:float = -1
+
+@export var enabled:bool = true : set = set_enabled
+@export_range(0, 99999, 1.0, "suffix:px") var laser_length:float = 80 : set = set_laser_length
+@export_range(0, 99999, 1.0, "suffix:px") var laser_width:float = 16 : set = set_laser_width
+@export_range(-1, 99999, 1.0, "suffix:px") var max_whole_length:float = INFINITE
+
+@export_range(INFINITE, 99999, 0.001, "suffix:sec") var update_cooldown:float = INFINITE : set = set_update_cooldown
+@export_range(INFINITE, 99999, 0.001, "suffix:sec") var stay_duration:float = -1
+#@export_subgroup("Debug")
+@export var show_collisions:bool = false : set = set_show_collisions
+@export var casting:bool = true
+
+@export_group("Shot")
+@export_range(INFINITE, 99999, 0.001, "suffix:sec") var max_shot_duration:float = INFINITE
+@export_range(INFINITE, 99999, 0.001, "hide_slider", "suffix:px/sec") var speed:float = INFINITE : set = set_speed
+enum SPEED {None, Length, Width}
+@export var expand_on:SPEED = SPEED.None : set = set_speed_type
+
+enum GROUPLIST {WhiteList, BlackList}
+@export_group("Collisions")
+@export_range(0, 99999, 0.001, "suffix:sec") var delay_collide:float = 0
+@export_file("*.tscn") var spawn_on_hit:String
+@export var spawn_target:NodePath
+@export_flags("Bodies", "Areas") var collide_with:int = 1 : set = set_collide_with
+@export_flags_2d_physics var casting_mask:int = 1 : set = set_cast_mask
+
+@export_group("Bounces", "bounce_")
+@export_range(0, 99999, 1, "suffix:bounces") var bounce_count:int = 0 : set = set_bounce_count
+@export var bounce_groups:Array[String]
+@export var bounce_group_list:GROUPLIST = GROUPLIST.WhiteList
+@export_range(0, 99999, 0.001, "hide_slider", "suffix:sec") var bounce_cooldown:float = 0
+@export var bounce_hit_texture:Texture2D = null : set = set_hit_texture
+@export_file("*.tscn") var bounce_spawn_on_bounce:String
+@export_placeholder("Pattern ID") var bounce_pattern_on_bounce:String
+@export_subgroup("Advanced")
+@export_range(0, 99999, 1.0, "hide_slider", "suffix:px") var bounce_min_length:float = 0
+@export_range(0, 99999, 0.1, "suffix:px") var BOUNCE_OFFSET:float = 11
+
+enum END {Delete, Stay, ShrinkW, Disable} #  shrinkL
+@export_group("Extremities")
+@export var on_end:END = END.Delete
+@export var can_end_midair:bool = true
+@export var start_texture:Texture2D = null : set = set_start_texture
+@export var end_texture:Texture2D = null : set = set_end_texture
+@export_file("*.tscn") var spawn_on_end:String
+@export_placeholder("Pattern ID") var pattern_on_end:String
+
+
+enum TEXTUREMODE {None, Tile, Stretch}
+enum CAP {None, Box, Round}
+@export_category("Line2D")
+@export var gradient:Gradient : set = set_gradient
+@export var texture:Texture2D = null : set = set_texture
+@export var texture_mode:TEXTUREMODE = TEXTUREMODE.None : set = set_texture_mode
+@export var width_curve:Curve : set = set_width_curve
+@export var begin_cap_mode:CAP = CAP.None : set = set_cap_mode
+
+###
+
+@onready var tween:Tween
+
+var points:Array[Vector2]
+var shapes:Array[CollisionShape2D]
+
+var update_idx:float = 0
+var can_update:bool = true
+var current_duration:float = 0
+var spawn_parent:Node
+var instance_end:Node
+var instance_bounce:Node
+var instance_hit:Node
+
+var was_enabled:bool = false
+
+
+
+func _reset_nodes():
+	if not has_node("Line2D"):
+		var instance = Line2D.new()
+		instance.default_color = self.self_modulate
+		instance.joint_mode = Line2D.LINE_JOINT_ROUND
+		instance.name = "Line2D"
+		add_child(instance)
+	if not has_node("RayCast2D"):
+		var instance = RayCast2D.new()
+		instance.target_position = Vector2(laser_length,0)
+		instance.name = "RayCast2D"
+		add_child(instance)
+
+func disable(remove_nodes:bool=false):
+	for n:Node2D in get_children():
+		if n is CollisionShape2D: n.queue_free()
+	if remove_nodes:
+		$Line2D.queue_free()
+		$RayCast2D.queue_free()
+	else:
+		$Line2D.clear_points()
+		$RayCast2D.enabled = false
+
+func init():
+	if not enabled or not casting: return
+	points.clear()
+	_reset_nodes()
+	if spawn_on_end != "": instance_end = load(spawn_on_end).instantiate()
+	if spawn_on_hit != "": instance_hit = load(spawn_on_hit).instantiate()
+	if bounce_spawn_on_bounce != "": instance_bounce = load(bounce_spawn_on_bounce).instantiate()
+	if spawn_target != NodePath():
+		spawn_parent = get_node(spawn_target)
+	elif spawn_parent == null: spawn_parent = self
+	init_shapes()
+	laser_built.connect(set_can_update)
+	reset_cast()
+	was_enabled = true
+
+func _ready():
+	init()
+	if Engine.is_editor_hint(): return
+	collided.connect(Spawning.laser_collide)
+
+func _physics_process(delta):
+	if not enabled or not casting: return
+	if update_cooldown == INFINITE: return
+
+	update_idx += delta
+	
+	if not can_update: return
+	if update_idx >= update_cooldown:
+		update_idx = 0
+		can_update = false
+		reset_cast()
+		#queue_redraw()
+
+func init_shapes():
+	shapes.clear()
+	var shape:CollisionShape2D
+	for s:int in bounce_count+1:
+		shape = CollisionShape2D.new()
+		shape.disabled = true
+		shape.shape = RectangleShape2D.new()
+		shape.hide()
+		shapes.append(shape)
+		call_deferred("add_child", shape)
+
+func reset_cast():
+	current_duration = 0
+	set_laser_length(laser_length)
+	$Line2D.clear_points()
+	points.clear()
+	$RayCast2D.position = Vector2.ZERO
+	$RayCast2D.rotation = 0
+	for s:int in shapes.size():
+		shapes[s].disabled = true
+	ray_cast()
+	$Line2D.global_rotation = self.global_rotation
+	set_show_collisions(show_collisions)
+	#$Line2D.rotation = -rotation
+
+func _draw() -> void:
+	if start_texture: draw_texture(start_texture, points[0] - start_texture.get_size()/2)
+	if end_texture: draw_texture(end_texture, points[-1] - end_texture.get_size()/2)
+	if bounce_hit_texture:
+		for p:int in points.size()-2: draw_texture(bounce_hit_texture, points[p+1] - bounce_hit_texture.get_size()/2)
+	
+	## debug
+	#for p:int in points.size()-1:
+		#draw_circle(Vector2(points[p]+points[p+1])/2, 10, Color.AZURE)
+	#for p:int in points.size():
+		#draw_circle(Vector2(points[p]), 10, Color.AQUA)
+	#
+	#draw_circle(($RayCast2D.target_position+global_position-$RayCast2D.global_position)
+		#.rotated($RayCast2D.global_rotation)
+		#, 10, Color.ORANGE)
+
+func ray_cast():
+	$RayCast2D.position = Vector2.ZERO
+	$RayCast2D.enabled = true
+	points.append(Vector2.ZERO)
+	$Line2D.add_point(Vector2.ZERO)
+	
+	# cast to get the laser endpoint
+	$RayCast2D.force_raycast_update()
+	var current_length:float = 0
+	var max_while:int = 0; var pos:Vector2; var angle:Vector2; var ray_length:float;
+	while $RayCast2D.is_colliding() and max_while <= bounce_count:
+		# one iteration per bounce
+		max_while += 1
+		pos = $RayCast2D.get_collision_point()
+		angle = $RayCast2D.get_collision_normal()
+		ray_length = $RayCast2D.global_position.distance_to(pos)
+		points.append(to_local(pos))
+		
+		if max_whole_length > 0:
+			if current_length + ray_length >= max_whole_length:
+				ray_length = max_whole_length-current_length
+				$RayCast2D.target_position.x = ray_length
+			current_length += ray_length
+		
+		collided.emit(pos, $RayCast2D.get_collider(), angle, current_length+ray_length, self)
+		
+		if not make_ray(ray_length): break
+		if expand_on == SPEED.Length:
+			await ray_built
+		if max_whole_length > 0:
+			if current_length >= max_whole_length-bounce_min_length: break
+			elif current_length + $RayCast2D.target_position.x >= max_whole_length-bounce_min_length:
+				$RayCast2D.target_position.x = max_whole_length-current_length-bounce_min_length
+		if bounce_cooldown > 0:
+			await get_tree().create_timer(bounce_cooldown, false).timeout
+		
+		if not can_bounce_on($RayCast2D.get_collider()):
+			break
+			
+		# put the shapecast at the endpoint and rotate it to bounce of the collider for the next iteration
+		$RayCast2D.global_rotation = ($RayCast2D.global_position-pos).bounce(angle).angle()+PI
+		$RayCast2D.global_position = pos + Vector2(BOUNCE_OFFSET,0).rotated($RayCast2D.global_rotation)
+		$RayCast2D.force_raycast_update()
+	
+	# if last laser segment doesnt hit a wall, still draw it
+	if can_end_midair and (max_while < bounce_count or points.size() < 2):
+		if max_whole_length > 0: $RayCast2D.target_position.x = max_whole_length-current_length
+		points.append( to_local(to_global(points[-1]) + $RayCast2D.target_position.rotated($RayCast2D.global_rotation) ) )
+		queue_redraw()
+		make_ray($RayCast2D.target_position.x)
+	
+	$RayCast2D.enabled = false
+	if points.size() <= 1:
+		laser_built.emit()
+		return
+	if can_expand_width():
+		expand_width()
+		await tween.finished
+	
+	end_cast()
+
+func can_bounce_on(collider:Node):
+	if bounce_groups.is_empty() or bounce_count == 0: return true
+	var is_in_group:bool = false
+	for group:String in collider.get_groups():
+		if group in bounce_groups: is_in_group = true
+	
+	if bounce_group_list == GROUPLIST.WhiteList: return is_in_group
+	else: return !is_in_group
+
+
+var angle:float = 0;
+func make_ray(ray_length:float):
+	if points.size() <= 1: return
+	
+	var idx:int = points.size()-1
+	var start_pos:Vector2 = points[idx-1]
+	angle = start_pos.angle_to_point(points[idx])#+get_parent().global_rotation
+	if expand_on == SPEED.None:
+		# instantly build the ray (laser segment)
+		$Line2D.add_point(points[idx])
+		# setup the ray's collision shape
+		shapes[idx-1].shape.size = Vector2(ray_length, laser_width/2)
+	elif expand_on == SPEED.Length:
+		var duration = ray_length/speed
+		if max_shot_duration > 0 and current_duration + duration > max_shot_duration:
+			duration = max_shot_duration - current_duration
+		current_duration += duration
+		$Line2D.add_point(start_pos)
+		shapes[idx-1].disabled = false
+		
+		tween = create_tween()
+		tween.tween_method(build_ray.bind(idx), start_pos, points[-1], duration)
+		tween.play()
+	else:
+		$Line2D.add_point(points[idx])
+		shapes[idx-1].shape.size = Vector2(ray_length, laser_width/2)
+	
+	# move collision shape at right place
+	shapes[idx-1].global_rotation = self.global_rotation+angle
+	shapes[idx-1].position = ((start_pos+points[idx])/2)
+	#shapes[idx-1].global_position = global_position+(Vector2(ray_length,0).rotated(self.global_rotation)/2)+(start_pos)
+	#print(points[idx-1])
+	#print(shapes[idx-1].global_position, shapes[idx-1].shape.size)
+	
+	ray_is_built(idx-1)
+	return (max_shot_duration <= 0 or current_duration > max_shot_duration)
+
+func build_ray(new_pos:Vector2, idx:int):
+	if points.size() <= 1: return
+	# line
+	$Line2D.set_point_position(idx, new_pos)
+	# shape
+	var new_length:float = $Line2D.get_point_position(idx-1).distance_to(new_pos)
+	shapes[idx-1].shape.size = Vector2(new_length, laser_width/2)
+	shapes[idx-1].global_position = (points[idx-1]+Vector2(new_length,0).rotated(angle)/2)+global_position
+
+func ray_is_built(p_idx):
+	if expand_on == SPEED.Length: await tween.finished
+	ray_built.emit()
+	
+	# spawn scene at collision points
+	if bounce_spawn_on_bounce != "":
+		for p:int in points.size():
+			if p == points.size()-1: continue
+			instance_bounce.global_position = points[p]+global_position
+			spawn_parent.call_deferred("add_child", instance_bounce.duplicate())
+	if bounce_pattern_on_bounce != "": Spawning.spawn(get_parent(), bounce_pattern_on_bounce)
+	
+	if delay_collide > 0: await get_tree().create_timer(delay_collide, false).timeout
+	shapes[p_idx].disabled = false
+
+func expand_width(end:float=laser_width):
+	$Line2D.width = 0
+	tween = create_tween()
+	tween.tween_property($Line2D, "width", end, laser_width/speed)
+	tween.play()
+
+func end_cast():
+	if spawn_on_end != "":
+		instance_end.global_position = points[-1]+global_position
+		spawn_parent.call_deferred("add_child", instance_end.duplicate())
+	if pattern_on_end != "": Spawning.spawn(get_parent(), pattern_on_end)
+	
+	laser_built.emit()
+	
+	if stay_duration == INFINITE or Engine.is_editor_hint(): return
+	elif stay_duration > 0: await get_tree().create_timer(stay_duration, false).timeout
+	
+	match on_end:
+		END.Delete: queue_free()
+		END.ShrinkW:
+			expand_width(0)
+			await tween.finished
+			queue_free()
+		END.Stay: pass
+		END.Disable: disable()
+
+
+func _on_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
+	hit(area)
+
+func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+	hit(body)
+
+func hit(collider):
+	if spawn_on_hit != "":
+		instance_hit.global_position #todo
+		spawn_parent.call_deferred("add_child", instance_hit.duplicate())
+
+func can_expand_width():
+	return (expand_on == SPEED.Width and speed > 0) and (max_shot_duration == INFINITE and bounce_cooldown == 0)
+
+## SETGETS
+
+
+
+func set_show_collisions(value):
+	show_collisions = value
+	for s:Node2D in get_children():
+		if not s is CollisionShape2D: continue
+		s.visible = value
+
+func set_collide_with(value):
+	collide_with = value
+	_reset_nodes()
+	$RayCast2D.collide_with_areas = (collide_with > 1)
+	$RayCast2D.collide_with_bodies = (collide_with%2 == 1)
+
+func set_laser_length(value):
+	if max_whole_length != INFINITE:
+		value = min(value, max_whole_length)
+	laser_length = value
+	_reset_nodes()
+	$RayCast2D.target_position = Vector2(laser_length,0)
+	#reset_cast()
+
+func set_laser_width(value):
+	laser_width = value
+	_reset_nodes()
+	$Line2D.width = laser_width
+
+func set_cast_mask(value):
+	casting_mask = value
+	_reset_nodes()
+	$RayCast2D.collision_mask = casting_mask
+
+func set_bounce_count(value):
+	bounce_count = value
+	init_shapes()
+	set_show_collisions(show_collisions)
+
+func set_start_texture(value):
+	start_texture = value
+	queue_redraw()
+
+func set_end_texture(value):
+	end_texture = value
+	queue_redraw()
+
+func set_hit_texture(value):
+	bounce_hit_texture = value
+	queue_redraw()
+
+func set_gradient(value):
+	gradient = value
+	_reset_nodes()
+	$Line2D.gradient = gradient
+
+func set_texture(value):
+	texture = value
+	_reset_nodes()
+	$Line2D.texture = texture
+
+func set_texture_mode(value):
+	texture_mode = value
+	_reset_nodes()
+	$Line2D.texture_mode = texture_mode
+
+func set_cap_mode(value):
+	begin_cap_mode = value
+	_reset_nodes()
+	$Line2D.begin_cap_mode = begin_cap_mode
+	
+#func set_default_color(value):
+	#default_color = value
+	#_reset_nodes()
+	#$Line2D.default_color = default_color
+
+func set_speed_type(value):
+	expand_on = value
+	if speed <= 0 and expand_on != SPEED.None: speed = 300
+	elif speed > 0 and expand_on == SPEED.None: speed = -1
+
+func set_speed(value):
+	speed = value
+	if speed > 0 and expand_on == SPEED.None: expand_on = SPEED.Length 
+	elif speed <= 0 and expand_on != SPEED.None: expand_on = SPEED.None
+
+func set_width_curve(value):
+	width_curve = value
+	_reset_nodes()
+	$Line2D.width_curve = width_curve
+
+func set_update_cooldown(value):
+	update_cooldown = value
+	if update_idx >= update_cooldown:
+		update_idx = 0
+
+func set_can_update():
+	can_update = true
+
+func set_enabled(value):
+	enabled = value
+	if not was_enabled: init()
+	elif not enabled: disable()
+	else:
+		init_shapes()
+		reset_cast()

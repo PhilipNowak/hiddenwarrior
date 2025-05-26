@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://r6p3xj4sknrk"]
+
+[ext_resource type="Script" uid="uid://crjvdq80tr322" path="res://Shapes/CustomShape.cs" id="1_gmj1r"]
+
+[node name="Trapzoid" type="CollisionPolygon2D"]
+polygon = PackedVector2Array(8, 12, 32, 12, 39, 26, 0, 26)
+script = ExtResource("1_gmj1r")
+metadata/_custom_type_script = "uid://crjvdq80tr322"
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 26, 39, 26, 32, 12, 8, 12)

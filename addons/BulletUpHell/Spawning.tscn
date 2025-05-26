@@ -1,0 +1,170 @@
+[gd_scene load_steps=17 format=3 uid="uid://gixop20d1d75"]
+
+[ext_resource type="Script" path="res://addons/BulletUpHell/BuHSpawner.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cn0mfdmnmkare" path="res://addons/BulletUpHell/Bullet/Sprites/Bullet_3.png" id="2_3slxn"]
+[ext_resource type="Script" path="res://addons/BulletUpHell/Bullet/animStates.gd" id="2_ai2re"]
+[ext_resource type="Texture2D" uid="uid://b2ku62tpreqh2" path="res://addons/BulletUpHell/Bullet/Sprites/Bullet_06.png" id="3_6fafs"]
+[ext_resource type="Texture2D" uid="uid://glq0o8fck6f5" path="res://addons/BulletUpHell/Bullet/Sprites/Bullet_11.png" id="4_gntuv"]
+[ext_resource type="AudioStream" uid="uid://c6x5p1wu4yo3q" path="res://addons/BulletUpHell/Bullet/Hit Hurt.wav" id="5_rada6"]
+[ext_resource type="Script" path="res://addons/BulletUpHell/Drawer.gd" id="8_pebki"]
+
+[sub_resource type="Resource" id="Resource_s2qvk"]
+script = ExtResource("2_ai2re")
+ID = ""
+texture = "0"
+collision = "0"
+SFX = ""
+tex_scale = 1.0
+tex_skew = 0.0
+
+[sub_resource type="Resource" id="Resource_8yjii"]
+script = ExtResource("2_ai2re")
+ID = ""
+texture = "0"
+collision = "0"
+SFX = ""
+tex_scale = 1.0
+tex_skew = 0.0
+
+[sub_resource type="Resource" id="Resource_ap43u"]
+script = ExtResource("2_ai2re")
+ID = ""
+texture = "0"
+collision = "0"
+SFX = "0"
+tex_scale = 1.0
+tex_skew = 0.0
+
+[sub_resource type="Resource" id="Resource_6xvhl"]
+script = ExtResource("2_ai2re")
+ID = ""
+texture = "0"
+collision = "0"
+SFX = ""
+tex_scale = 1.0
+tex_skew = 0.0
+
+[sub_resource type="Resource" id="Resource_wl7g7"]
+script = ExtResource("2_ai2re")
+ID = ""
+texture = "0"
+collision = "0"
+SFX = ""
+tex_scale = 1.0
+tex_skew = 0.0
+
+[sub_resource type="SpriteFrames" id="1"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3slxn")
+}],
+"loop": true,
+"name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6fafs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gntuv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gntuv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gntuv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gntuv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gntuv")
+}],
+"loop": false,
+"name": &"Example",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_gntuv")
+}],
+"loop": true,
+"name": &"NoRot",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fi84t"]
+
+[sub_resource type="ConvexPolygonShape2D" id="3"]
+points = PackedVector2Array(0, 0)
+
+[node name="BulletHellManager" type="Node2D"]
+z_index = 1
+script = ExtResource("1")
+GROUP_BOUNCE = PackedStringArray("Bounce")
+default_idle = SubResource("Resource_s2qvk")
+default_spawn = SubResource("Resource_8yjii")
+default_shoot = SubResource("Resource_ap43u")
+default_waiting = SubResource("Resource_6xvhl")
+default_delete = SubResource("Resource_wl7g7")
+
+[node name="SharedAreas" type="Node2D" parent="."]
+
+[node name="0" type="Area2D" parent="SharedAreas"]
+
+[node name="ShapeManager" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 3
+sprite_frames = SubResource("1")
+animation = &"Example"
+
+[node name="0" type="CollisionShape2D" parent="ShapeManager"]
+shape = SubResource("RectangleShape2D_fi84t")
+
+[node name="LaserBeam" type="CollisionShape2D" parent="ShapeManager"]
+shape = SubResource("3")
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="0" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("5_rada6")
+
+[node name="Drawers" type="Node2D" parent="."]
+
+[node name="0" type="Node2D" parent="Drawers"]
+z_as_relative = false
+script = ExtResource("8_pebki")
+
+[node name="Bouncy" type="Node2D" parent="."]
+
+[node name="0" type="CharacterBody2D" parent="Bouncy"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bouncy/0"]
+
+[node name="1" type="CharacterBody2D" parent="Bouncy"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bouncy/1"]
+
+[node name="2" type="CharacterBody2D" parent="Bouncy"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bouncy/2"]
+
+[node name="3" type="CharacterBody2D" parent="Bouncy"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bouncy/3"]
+
+[node name="4" type="CharacterBody2D" parent="Bouncy"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bouncy/4"]

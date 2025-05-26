@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgvu3u1qxacjt"]
+
+[ext_resource type="Script" uid="uid://bf1yf4u1di8dh" path="res://Abilities/FireSquare.cs" id="1_e2al5"]
+[ext_resource type="PackedScene" uid="uid://bloweor6ohwqe" path="res://Shapes/Square.tscn" id="2_kfsxs"]
+
+[node name="FireSquare" type="Node2D"]
+script = ExtResource("1_e2al5")
+
+[node name="Shape" parent="." instance=ExtResource("2_kfsxs")]

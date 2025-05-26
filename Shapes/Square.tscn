@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bloweor6ohwqe"]
+
+[ext_resource type="Script" uid="uid://crjvdq80tr322" path="res://Shapes/CustomShape.cs" id="1_kvftk"]
+
+[node name="Square" type="CollisionPolygon2D"]
+polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+script = ExtResource("1_kvftk")
+metadata/_custom_type_script = "uid://crjvdq80tr322"
+
+[node name="shape" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-32, -32, -32, 32, 32, 32, 32, -32)
+uv = PackedVector2Array(0, 0, 0, 64, 64, 64, 64, 0)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
