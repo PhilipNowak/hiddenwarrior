@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://c7l0sbwxdgpyn" path="res://addons/BulletUpHell/Nodes/BuHSpawnPoint.gd" id="4_gwnis"]
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("CustomShape")]
+collision_layer = 2
+collision_mask = 21
 script = ExtResource("1_onrkg")
 CustomShape = NodePath("Square")
 
@@ -15,9 +17,10 @@ CustomShape = NodePath("Square")
 script = ExtResource("3_btcbx")
 
 [node name="SpawnPoint" type="Node2D" parent="."]
-position = Vector2(0, -56)
 script = ExtResource("4_gwnis")
-auto_pattern_id = "circle"
+auto_pattern_id = "flames"
+shared_area_name = "2"
+pool_amount = 800
 r_active_chances = 1.0
 r_rotating_variation = Vector3(0, 0, 0)
 r_pattern_choice = ""

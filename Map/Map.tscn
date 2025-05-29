@@ -1,13 +1,49 @@
-[gd_scene load_steps=12 format=3 uid="uid://4xvlqg8sgi4h"]
+[gd_scene load_steps=20 format=3 uid="uid://4xvlqg8sgi4h"]
 
 [ext_resource type="PackedScene" uid="uid://cqeb43rfc0oip" path="res://Player/player.tscn" id="1_17lxq"]
-[ext_resource type="PackedScene" uid="uid://dgvu3u1qxacjt" path="res://Abilities/FireSquare.tscn" id="2_7s3fs"]
 [ext_resource type="PackedScene" uid="uid://byi86y3dg243e" path="res://Enemy/Enemy.tscn" id="3_2623n"]
 [ext_resource type="PackedDataContainer" uid="uid://c0k1j4p518f2c" path="res://Abilities/bulletPatterns/test.tres" id="4_6od3y"]
 [ext_resource type="Script" uid="uid://cysgobyq3fmli" path="res://addons/BulletUpHell/Nodes/BuHPattern.gd" id="4_ypc4v"]
 [ext_resource type="Script" uid="uid://dkydukbjjmxys" path="res://addons/BulletUpHell/SpawnPatterns/PatternCircle.gd" id="5_6od3y"]
+[ext_resource type="Script" uid="uid://bi2wbrcal0rws" path="res://addons/BulletUpHell/SpawnPatterns/PatternOne.gd" id="5_cccvd"]
 [ext_resource type="Script" uid="uid://7vaaon3mwqkw" path="res://addons/BulletUpHell/Nodes/BuHBulletProperties.gd" id="6_vxmom"]
 [ext_resource type="Script" uid="uid://c7l0sbwxdgpyn" path="res://addons/BulletUpHell/Nodes/BuHSpawnPoint.gd" id="8_6od3y"]
+[ext_resource type="Curve2D" uid="uid://4q5ob11oofx2" path="res://Abilities/bulletPatterns/boomerang.tres" id="9_cccvd"]
+[ext_resource type="Script" uid="uid://dnu6q404wm6qh" path="res://addons/BulletUpHell/Bullet/animStates.gd" id="10_cccvd"]
+[ext_resource type="Script" uid="uid://c6c5hrthfwctu" path="res://addons/BulletUpHell/Bullet/BulletProps.gd" id="11_jq5q4"]
+
+[sub_resource type="Curve2D" id="Curve2D_ehio4"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_jq5q4"]
+resource_name = "PatternOne"
+script = ExtResource("5_cccvd")
+bullet = "boomerang"
+nbr = 1
+iterations = -1
+cooldown_spawn = 1.0
+cooldown_shoot = 0.0
+cooldown_next_spawn = 0.0
+cooldown_next_shoot = 0.0
+cooldown_layers = PackedVector2Array()
+cooldown_stasis = false
+on_interruption = 0
+pattern_angle = 0.0
+pattern_angle_target = NodePath("")
+pattern_angle_mouse = false
+wait_behavior = 0
+wait_tween_momentum = 0
+wait_tween_length = 0.0
+wait_tween_time = 0.0
+forced_angle = 0.0
+forced_target = NodePath("")
+forced_lookat_mouse = false
+forced_pattern_lookat = true
+impulse = 0
+bullet_list = Array[String]([])
+skip_step = 0
+skip_list = Array[PackedInt32Array]([])
+skip_in_list = true
+metadata/_custom_type_script = "uid://bi2wbrcal0rws"
 
 [sub_resource type="Curve2D" id="Curve2D_vk5l4"]
 
@@ -50,35 +86,151 @@ metadata/_custom_type_script = "uid://dkydukbjjmxys"
 
 [sub_resource type="Curve2D" id="Curve2D_jq5q4"]
 
+[sub_resource type="Curve" id="Curve_t64y5"]
+
+[sub_resource type="Curve" id="Curve_b3jsu"]
+
+[sub_resource type="PackedDataContainer" id="PackedDataContainer_2q318"]
+script = ExtResource("11_jq5q4")
+damage = 1.0
+speed = 100.0
+scale = 1.0
+angle = 0.0
+groups = PackedStringArray()
+custom_data = {}
+death_after_time = 30.0
+death_outside_box = Rect2(0, 0, 0, 0)
+death_from_collision = true
+death_speed_under = 0.0
+death_culling_overwrite = 3
+spec_modulate_loop = 0.0
+no_rotation = false
+z_index = 0
+anim_more = Array[ExtResource("10_cccvd")]([])
+spec_trail_length = 0.0
+spec_trail_width = 0.0
+spec_trail_modulate = Color(1, 1, 1, 1)
+spec_trail_fade_out = false
+spec_trail_thin_out = false
+spec_trail_smooth = 0.03
+a_direction_equation = ""
+a_angular_equation = ""
+a_curve_movement = 2
+a_speed_multi_iterations = 0
+a_speed_multi_scale = 0.0
+a_speed_multiplier = SubResource("Curve_t64y5")
+depth_active = Vector2(0, 0)
+depth_spawn = 0.0
+depth_speed = 100.0
+depth_min_max = Vector2(-300, 100)
+depth_bounce = false
+spec_bounces = 0
+spec_no_collision = false
+spec_rotating_speed = 0.0
+spec_only_spin_sprite = true
+spec_weight = 1.0
+scale_multi_iterations = 0
+scale_multiplier = SubResource("Curve_b3jsu")
+scale_multi_scale = 1.0
+trigger_container = ""
+trigger_wait_for_shot = true
+homing_type = 0
+homing_target = NodePath("")
+homing_steer = 0.0
+homing_time_start = 0.0
+homing_duration = 999.0
+homing_detection_dist = 0.0
+homing_start_signal = ""
+homing_range = Vector2(9999, 20)
+homing_imprecision = Vector2(0, 0)
+r_randomisation_chances = 1.0
+r_speed_choice = PackedFloat32Array()
+r_speed_variation = Vector3(0, 0, 0)
+r_scale_choice = PackedFloat32Array()
+r_scale_variation = Vector3(0, 0, 0)
+r_angle_choice = PackedFloat32Array()
+r_angle_variation = Vector3(0, 0, 0)
+r_group_choice = []
+r_bounce_choice = PackedInt32Array()
+r_bounce_variation = Vector3(0, 0, 0)
+r_no_coll_chances = 0.0
+r_modulate_variation = Vector3(0, 0, 0)
+r_trail_length_variation = Vector3(0, 0, 0)
+r_trail_color_variation = Vector3(0, 0, 0)
+r_rotating_variation = Vector3(0, 0, 0)
+r_death_after_choice = PackedFloat32Array()
+r_death_after_variation = Vector3(0, 0, 0)
+r_death_outside_chances = 0.0
+r_dir_equation_choice = PackedStringArray()
+r_curve_choice = []
+r_speed_multi_curve_choice = []
+r_speed_multi_iter_variation = Vector3(0, 0, 0)
+r_speed_multi_scale_variation = Vector3(0, 0, 0)
+r_trigger_choice = PackedStringArray()
+r_wait_for_shot_chances = 0.0
+r_homing_target_choice = []
+r_special_target_choice = PackedStringArray()
+r_group_target_choice = PackedStringArray()
+r_pos_target_choice = PackedVector2Array()
+r_steer_choice = PackedFloat32Array()
+r_steer_variation = Vector3(0, 0, 0)
+r_homing_delay_choice = PackedFloat32Array()
+r_homing_delay_variation = Vector3(0, 0, 0)
+r_homing_dur_choice = PackedFloat32Array()
+r_homing_dur_variation = Vector3(0, 0, 0)
+r_scale_multi_curve_choice = []
+r_scale_multi_iter_variation = Vector3(0, 0, 0)
+r_scale_multi_scale_variation = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://c6c5hrthfwctu"
+
 [node name="Map" type="Node2D"]
 
-[node name="SpawnPattern" type="Path2D" parent="."]
+[node name="Player" parent="." instance=ExtResource("1_17lxq")]
+position = Vector2(154, 232)
+Color = Color(0.513378, 0.0366605, 0.491728, 1)
+
+[node name="Enemy" parent="." instance=ExtResource("3_2623n")]
+position = Vector2(528, 244)
+Color = Color(6.16074e-06, 0.634465, 0.849223, 1)
+
+[node name="SpawnPatterns" type="Node" parent="."]
+
+[node name="Boomerang" type="Path2D" parent="SpawnPatterns"]
+curve = SubResource("Curve2D_ehio4")
+script = ExtResource("4_ypc4v")
+id = "boomerang"
+pattern = SubResource("NavigationPolygon_jq5q4")
+metadata/_custom_type_script = "uid://cysgobyq3fmli"
+
+[node name="SpawnPattern" type="Path2D" parent="SpawnPatterns"]
 curve = SubResource("Curve2D_vk5l4")
 script = ExtResource("4_ypc4v")
 id = "circle"
 pattern = SubResource("NavigationPolygon_cccvd")
 metadata/_custom_type_script = "uid://cysgobyq3fmli"
 
-[node name="BulletPattern" type="Path2D" parent="."]
+[node name="BulletPattern2" type="Node" parent="."]
+
+[node name="BulletPattern" type="Path2D" parent="BulletPattern2"]
 curve = SubResource("Curve2D_jq5q4")
 script = ExtResource("6_vxmom")
 id = "test"
 props = ExtResource("4_6od3y")
 metadata/_custom_type_script = "uid://7vaaon3mwqkw"
 
-[node name="Player" parent="." instance=ExtResource("1_17lxq")]
-position = Vector2(154, 232)
-Color = Color(0.513378, 0.0366605, 0.491728, 1)
-abilityOne = ExtResource("2_7s3fs")
-
-[node name="Enemy" parent="." instance=ExtResource("3_2623n")]
-position = Vector2(528, 244)
-Color = Color(6.16074e-06, 0.634465, 0.849223, 1)
+[node name="Boomerang" type="Path2D" parent="BulletPattern2"]
+position = Vector2(281.327, 3.15957)
+scale = Vector2(0.810427, 1.11702)
+curve = ExtResource("9_cccvd")
+script = ExtResource("6_vxmom")
+id = "boomerang"
+props = SubResource("PackedDataContainer_2q318")
+metadata/_custom_type_script = "uid://7vaaon3mwqkw"
 
 [node name="SpawnPoint" type="Node2D" parent="."]
-position = Vector2(338, 253)
+position = Vector2(1029, 205)
 script = ExtResource("8_6od3y")
-auto_pattern_id = "circle"
+auto_pattern_id = "boomerang"
 r_active_chances = 1.0
 r_rotating_variation = Vector3(0, 0, 0)
 r_pattern_choice = ""

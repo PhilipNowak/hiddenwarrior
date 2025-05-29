@@ -18,7 +18,10 @@ func bullet_collide_body(body_rid:RID,body:Node,body_shape_index:int,local_shape
 	## you can use B["props"]["damage"] to get the bullet's damage
 	## you can use B["RID"] to get the bullet's RID
 	## you can use B["props"]["<your custom data name>"] to get the bullet's custom data
-	
+	if(body.name == "Player"):
+		body.Hit(B["props"]["damage"])
+	elif body.IsEnemy:
+		body.Hit(B["props"]["damage"])
 	pass
 
 

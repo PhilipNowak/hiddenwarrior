@@ -54,5 +54,3 @@ var skip_array:Array[PackedInt32Array]
 
 var has_random
 var node_target:Node2D
-
-

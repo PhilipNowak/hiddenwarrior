@@ -1,13 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://b8safy5x1ujdr"]
+[gd_scene load_steps=19 format=3 uid="uid://b8safy5x1ujdr"]
 
-[ext_resource type="Script" path="res://addons/BulletUpHell/ExampleScenes/ExampleScene.gd" id="1_6vo6g"]
-[ext_resource type="Script" path="res://addons/BulletUpHell/Nodes/BuHPattern.gd" id="2_fdwqf"]
-[ext_resource type="Script" path="res://addons/BulletUpHell/SpawnPatterns/PatternOne.gd" id="3_7oyal"]
-[ext_resource type="Script" path="res://addons/BulletUpHell/SpawnPatterns/PatternRandomizer.gd" id="4_gdf58"]
-[ext_resource type="Script" path="res://addons/BulletUpHell/SpawnPatterns/PatternCircle.gd" id="4_idogp"]
-[ext_resource type="Script" path="res://addons/BulletUpHell/Nodes/BuHBulletProperties.gd" id="9_vhgkb"]
-[ext_resource type="Script" path="res://addons/BulletUpHell/Bullet/BulletProps.gd" id="10_wyhe8"]
-[ext_resource type="Script" path="res://addons/BulletUpHell/Nodes/BuHSpawnPoint.gd" id="11_xc7uj"]
+[ext_resource type="Script" uid="uid://4aiyceuhc4kp" path="res://addons/BulletUpHell/ExampleScenes/ExampleScene.gd" id="1_6vo6g"]
+[ext_resource type="Script" uid="uid://cysgobyq3fmli" path="res://addons/BulletUpHell/Nodes/BuHPattern.gd" id="2_fdwqf"]
+[ext_resource type="Script" uid="uid://bi2wbrcal0rws" path="res://addons/BulletUpHell/SpawnPatterns/PatternOne.gd" id="3_7oyal"]
+[ext_resource type="Script" uid="uid://ddhxvuxmh7hve" path="res://addons/BulletUpHell/SpawnPatterns/PatternRandomizer.gd" id="4_gdf58"]
+[ext_resource type="Script" uid="uid://dkydukbjjmxys" path="res://addons/BulletUpHell/SpawnPatterns/PatternCircle.gd" id="4_idogp"]
+[ext_resource type="Script" uid="uid://dnu6q404wm6qh" path="res://addons/BulletUpHell/Bullet/animStates.gd" id="7_n6dbe"]
+[ext_resource type="Script" uid="uid://7vaaon3mwqkw" path="res://addons/BulletUpHell/Nodes/BuHBulletProperties.gd" id="9_vhgkb"]
+[ext_resource type="Script" uid="uid://c6c5hrthfwctu" path="res://addons/BulletUpHell/Bullet/BulletProps.gd" id="10_wyhe8"]
+[ext_resource type="Script" uid="uid://c7l0sbwxdgpyn" path="res://addons/BulletUpHell/Nodes/BuHSpawnPoint.gd" id="11_xc7uj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_kt31x"]
 resource_name = "PatternOne"
@@ -22,6 +23,7 @@ cooldown_next_spawn = 0.0
 cooldown_next_shoot = 0.0
 cooldown_layers = PackedVector2Array()
 cooldown_stasis = false
+on_interruption = 0
 pattern_angle = 0.0
 pattern_angle_target = NodePath("")
 pattern_angle_mouse = false
@@ -33,6 +35,7 @@ forced_angle = 0.0
 forced_target = NodePath("")
 forced_lookat_mouse = false
 forced_pattern_lookat = true
+impulse = 0
 bullet_list = Array[String]([])
 skip_step = 0
 skip_list = Array[PackedInt32Array]([])
@@ -89,6 +92,7 @@ radius = 50.0
 angle_total = 6.28319
 angle_decal = 0.0004
 center = 0
+perspective = 1.0
 symmetric = false
 bullet = "1"
 nbr = 5
@@ -99,6 +103,7 @@ cooldown_next_spawn = 0.0
 cooldown_next_shoot = 0.0
 cooldown_layers = PackedVector2Array()
 cooldown_stasis = false
+on_interruption = 0
 pattern_angle = 0.0
 pattern_angle_target = NodePath("")
 pattern_angle_mouse = false
@@ -110,6 +115,7 @@ forced_angle = 0.0
 forced_target = NodePath("")
 forced_lookat_mouse = false
 forced_pattern_lookat = true
+impulse = 0
 bullet_list = Array[String]([])
 skip_step = 0
 skip_list = Array[PackedInt32Array]([])
@@ -129,26 +135,38 @@ speed = 100.0
 scale = 1.0
 angle = 0.0
 groups = PackedStringArray()
+custom_data = {}
 death_after_time = 30.0
 death_outside_box = Rect2(0, 0, 0, 0)
 death_from_collision = true
 death_speed_under = 0.0
 death_culling_overwrite = 3
 spec_modulate_loop = 0.0
-anim_more = Array[Resource("res://addons/BulletUpHell/Bullet/animStates.gd")]([])
+no_rotation = false
+z_index = 0
+anim_more = Array[ExtResource("7_n6dbe")]([])
 spec_trail_length = 0.0
 spec_trail_width = 0.0
 spec_trail_modulate = Color(1, 1, 1, 1)
+spec_trail_fade_out = false
+spec_trail_thin_out = false
+spec_trail_smooth = 0.03
 a_direction_equation = ""
 a_angular_equation = ""
 a_curve_movement = 0
 a_speed_multi_iterations = 0
 a_speed_multi_scale = 0.0
 a_speed_multiplier = SubResource("Curve_vbs6u")
+depth_active = Vector2(0, 0)
+depth_spawn = 0.0
+depth_speed = 100.0
+depth_min_max = Vector2(-300, 100)
+depth_bounce = false
 spec_bounces = 0
 spec_no_collision = false
 spec_rotating_speed = 0.0
 spec_only_spin_sprite = true
+spec_weight = 1.0
 scale_multi_iterations = 0
 scale_multiplier = SubResource("Curve_2xsyn")
 scale_multi_scale = 1.0
@@ -209,26 +227,38 @@ speed = 100.0
 scale = 1.0
 angle = 0.0
 groups = PackedStringArray()
+custom_data = {}
 death_after_time = 30.0
 death_outside_box = Rect2(0, 0, 0, 0)
 death_from_collision = true
 death_speed_under = 0.0
 death_culling_overwrite = 3
 spec_modulate_loop = 0.0
-anim_more = Array[Resource("res://addons/BulletUpHell/Bullet/animStates.gd")]([])
+no_rotation = false
+z_index = 0
+anim_more = Array[ExtResource("7_n6dbe")]([])
 spec_trail_length = 0.0
 spec_trail_width = 0.0
 spec_trail_modulate = Color(1, 1, 1, 1)
+spec_trail_fade_out = false
+spec_trail_thin_out = false
+spec_trail_smooth = 0.03
 a_direction_equation = ""
 a_angular_equation = ""
 a_curve_movement = 0
 a_speed_multi_iterations = 0
 a_speed_multi_scale = 0.0
 a_speed_multiplier = SubResource("Curve_vbs6u")
+depth_active = Vector2(0, 0)
+depth_spawn = 0.0
+depth_speed = 100.0
+depth_min_max = Vector2(-300, 100)
+depth_bounce = false
 spec_bounces = 0
 spec_no_collision = false
 spec_rotating_speed = 0.0
 spec_only_spin_sprite = true
+spec_weight = 1.0
 scale_multi_iterations = 0
 scale_multiplier = SubResource("Curve_2xsyn")
 scale_multi_scale = 1.0
