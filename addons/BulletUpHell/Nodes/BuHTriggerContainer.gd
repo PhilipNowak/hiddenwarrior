@@ -44,6 +44,8 @@ func define_trigger(res:Array, t:String, b, rid):
 func getCurrentTriggers(b, rid):
 	if b.get("trigger_counter") < 0: return
 	var res:Array = []
+	var test = b.get("trigger_counter");
+	print(test);
 	var list = commands[b.get("trigger_counter")][0]
 	if "/" in list:
 		list = list.split("/")
@@ -131,23 +133,30 @@ func checkTriggers(b, rid):
 
 func updateBase(b, list, trigger_counter:int, rid, isNode:bool):
 	list = commands[trigger_counter+1].split(">")
-	if list[0] != "":
-		if not b.get("trig_iter").has(trigger_counter+1):
-			b.get("trig_iter")[trigger_counter+1] = int(list[0])-1
-		else: b.get("trig_iter")[trigger_counter+1] -= 1
-		
-		if b.get("trig_iter")[trigger_counter+1] > 0: setTriggerCounter(isNode, b, int(list[1]))
-		else: incTriggerCounter(isNode, b, 2)
-	elif list[1] != "":
+	var test = b.get("trig_iter");
+	
+	if list[1] != "":
 		if list[1] == "q":
 			if not isNode: Spawning.delete_bullet(b)
 			else: rid.queue_free()
 			return
 		elif list[1] == "|": incTriggerCounter(isNode, b, -1)
 		else: setTriggerCounter(isNode, b, int(list[1])) #b["trigger_counter"] = int(list[1])
+	elif !(list[0] == ""):	
+		if not b.get("trig_iter").has(trigger_counter+1):
+			b.get("trig_iter")[trigger_counter+1] = int(list[0])-1
+		else: b.get("trig_iter")[trigger_counter+1] -= 1
+		
+		if b.get("trig_iter")[trigger_counter+1] > 0: setTriggerCounter(isNode, b, int(list[1]))
+		else: incTriggerCounter(isNode, b, 2)
+	
 	else: incTriggerCounter(isNode, b, 2)
+	
+	var currentTrigerCount = b.get("trigger_counter");
+	##if currentTrigerCount >= commands.size(): incTriggerCounter(isNode, b, -2)
 	if trigger_counter >= commands.size(): incTriggerCounter(isNode, b, -1)
 	
+	var test2 = b.get("trigger_counter");
 	resetTriggers(b, isNode)
 	getCurrentTriggers(b, rid)
 

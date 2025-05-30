@@ -18,7 +18,7 @@ script = ExtResource("3_btcbx")
 
 [node name="SpawnPoint" type="Node2D" parent="."]
 script = ExtResource("4_gwnis")
-auto_pattern_id = "flames"
+auto_pattern_id = "iceBall"
 shared_area_name = "2"
 pool_amount = 800
 r_active_chances = 1.0
