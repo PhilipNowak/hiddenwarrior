@@ -20,6 +20,7 @@ public partial class Enemy : CharacterBody2D
         //var polygon = GetNodeOrNull<Polygon2D>("Polygon2D");
         //var polygon = CollisionPolygon.GetNodeOrNull<Polygon2D>("Polygon2D");
         CustomShape.Color = Color;
+        Spawning.Spawn(this, "line_left");
         //CustomShape.Scale *= 4;
         //polygon.Color = Color;
     }
@@ -29,10 +30,14 @@ public partial class Enemy : CharacterBody2D
         Health -= damage;
         if (Health <= 0)
         {
-            GD.Print("Enemy defeated");
-            var gdscript = GetNode("/root/Spawning"); //ResourceLoader.Load("res://addons/BulletUpHell/BuHSpawner.gd") as Script; //
-            GD.Print(gdscript);
-            gdscript.Call("clear_all_bullets"); // Notify the manager that the enemy is defeated
+            // GD.Print("Enemy defeated");
+            // var gdscript = GetNode("/root/Spawning"); //ResourceLoader.Load("res://addons/BulletUpHell/BuHSpawner.gd") as Script; //
+            // GD.Print(gdscript);
+            // gdscript.Call("clear_all_bullets"); // Notify the manager that the enemy is defeated
+            // var myNode = Engine.GetSingleton("Spawning");
+            // GD.Print(myNode);
+            // myNode.Call("clear_all_bullets");
+            Spawning.ClearAllBullets();
             QueueFree(); // Remove the enemy from the scene
         }
         else

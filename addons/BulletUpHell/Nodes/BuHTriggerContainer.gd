@@ -45,7 +45,6 @@ func getCurrentTriggers(b, rid):
 	if b.get("trigger_counter") < 0: return
 	var res:Array = []
 	var test = b.get("trigger_counter");
-	print(test);
 	var list = commands[b.get("trigger_counter")][0]
 	if "/" in list:
 		list = list.split("/")
@@ -133,22 +132,26 @@ func checkTriggers(b, rid):
 
 func updateBase(b, list, trigger_counter:int, rid, isNode:bool):
 	list = commands[trigger_counter+1].split(">")
-	var test = b.get("trig_iter");
 	
+	if list[0]:	
+		if not b.get("trig_iter").has(trigger_counter+1):
+			b.get("trig_iter")[trigger_counter+1] = int(list[0])-1
+		else: b.get("trig_iter")[trigger_counter+1] -= 1
+		
+		if b.get("trig_iter")[trigger_counter+1] > 0: 
+			setTriggerCounter(isNode, b, int(list[1]))
+		else: incTriggerCounter(isNode, b, -1)
+		#else: incTriggerCounter(isNode, b, 2)
+		
+		
 	if list[1] != "":
 		if list[1] == "q":
 			if not isNode: Spawning.delete_bullet(b)
 			else: rid.queue_free()
 			return
 		elif list[1] == "|": incTriggerCounter(isNode, b, -1)
-		else: setTriggerCounter(isNode, b, int(list[1])) #b["trigger_counter"] = int(list[1])
-	elif !(list[0] == ""):	
-		if not b.get("trig_iter").has(trigger_counter+1):
-			b.get("trig_iter")[trigger_counter+1] = int(list[0])-1
-		else: b.get("trig_iter")[trigger_counter+1] -= 1
-		
-		if b.get("trig_iter")[trigger_counter+1] > 0: setTriggerCounter(isNode, b, int(list[1]))
-		else: incTriggerCounter(isNode, b, 2)
+		#else: setTriggerCounter(isNode, b, int(list[1])) #b["trigger_counter"] = int(list[1])
+	
 	
 	else: incTriggerCounter(isNode, b, 2)
 	
@@ -170,7 +173,6 @@ func incTriggerCounter(node:bool, b, value:int):
 
 func checkTrigger(b, t_id:String, isNode:bool):
 	var t = Spawning.trigger(id+"/"+t_id)
-	
 	match t.resource_name:
 		"TrigCol":
 			if t.group_to_collide != "": return (t.group_to_collide in b.get("trig_collider").get_groups())
@@ -178,7 +180,8 @@ func checkTrigger(b, t_id:String, isNode:bool):
 			elif t.on_bounce: return (b.get("bounces", 0) > 0)
 			else: return true
 		"TrigTime":
-			if isNode: return b.trig_timeout(t.time)
+			if b.get("state") != 4: return false;
+			elif isNode: return b.trig_timeout(t.time)
 			elif b.get("trig_timeout"): return true
 		"TrigPos":
 			var arg = b.get("position")

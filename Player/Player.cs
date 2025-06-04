@@ -8,6 +8,8 @@ public partial class Player : CharacterBody2D
     [Export]
     public Color Color { get; set; } = new Color(1, 1, 1); // Default color
     public int Health { get; set; } = 100;
+    [Export]
+    public AbilityBase Ability1 { get; set; }
 
     private float _speed = 200.0f;
 
@@ -32,6 +34,11 @@ public partial class Player : CharacterBody2D
         if (Input.IsActionPressed("ui_up"))
         {
             velocity.Y -= 1;
+        }
+
+        if (Input.IsActionPressed("ability_one") && Ability1 != null)
+        {
+            Ability1.Use();
         }
 
         // Normalize the velocity vector to ensure consistent speed in all directions

@@ -6,4 +6,3 @@ class_name TriggerTime
 
 func _init():
 	resource_name = "TrigTime"
-

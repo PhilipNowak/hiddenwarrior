@@ -20,7 +20,7 @@ func bullet_collide_body(body_rid:RID,body:Node,body_shape_index:int,local_shape
 	## you can use B["props"]["<your custom data name>"] to get the bullet's custom data
 	if(body.name == "Player"):
 		body.Hit(B["props"]["damage"])
-	elif get("IsEnemy"):
+	elif body.get("IsEnemy"):
 		body.Hit(B["props"]["damage"])
 	pass
 

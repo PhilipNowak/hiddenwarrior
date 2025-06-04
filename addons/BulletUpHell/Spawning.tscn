@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://gixop20d1d75"]
+[gd_scene load_steps=33 format=3 uid="uid://gixop20d1d75"]
 
 [ext_resource type="Script" uid="uid://dikwg1d58fmf" path="res://addons/BulletUpHell/BuHSpawner.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://yttrgpog0o6r" path="res://addons/BulletUpHell/Bullet/Sprites/Bullet_3.png" id="2_3slxn"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dtmq6hcwrpwmn" path="res://addons/BulletUpHell/Bullet/Sprites/Bullet_06.png" id="3_6fafs"]
 [ext_resource type="Texture2D" uid="uid://2x7yl56jq2pp" path="res://addons/BulletUpHell/Bullet/Sprites/Bullet_11.png" id="4_gntuv"]
 [ext_resource type="AudioStream" uid="uid://detuqv36suvn5" path="res://addons/BulletUpHell/Bullet/Hit Hurt.wav" id="5_rada6"]
+[ext_resource type="Texture2D" uid="uid://buxm4gxuyjkfx" path="res://art/All_Fire_Bullet_Pixel_16x16_03.png" id="6_hmrcn"]
 [ext_resource type="Texture2D" uid="uid://dqboyu4kyriw6" path="res://art/All_Fire_Bullet_Pixel_16x16_00.png" id="6_vcv82"]
 [ext_resource type="Texture2D" uid="uid://c571vrngbsibu" path="res://art/All_Fire_Bullet_Pixel_16x16_02.png" id="7_78yhu"]
 [ext_resource type="Script" uid="uid://7bhldsh5m1gy" path="res://addons/BulletUpHell/Drawer.gd" id="8_pebki"]
@@ -54,6 +55,22 @@ collision = "0"
 SFX = ""
 tex_scale = 1.0
 tex_skew = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfenb"]
+atlas = ExtResource("6_hmrcn")
+region = Rect2(416, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h08xm"]
+atlas = ExtResource("6_hmrcn")
+region = Rect2(432, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hwf5"]
+atlas = ExtResource("6_hmrcn")
+region = Rect2(448, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhd0s"]
+atlas = ExtResource("6_hmrcn")
+region = Rect2(464, 160, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_78yhu"]
 atlas = ExtResource("6_vcv82")
@@ -139,6 +156,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_bfenb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h08xm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hwf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lhd0s")
+}],
+"loop": true,
+"name": &"coin_green",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_78yhu")
 }, {
 "duration": 1.0,
@@ -180,6 +214,9 @@ animations = [{
 [sub_resource type="ConvexPolygonShape2D" id="3"]
 points = PackedVector2Array(0, 0)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hmrcn"]
+radius = 6.0
+
 [node name="BulletHellManager" type="Node2D"]
 z_index = 1
 script = ExtResource("1")
@@ -205,16 +242,22 @@ collision_layer = 8
 collision_mask = 5
 
 [node name="ShapeManager" type="AnimatedSprite2D" parent="."]
-visible = false
 texture_filter = 3
+position = Vector2(0, -2.5)
 sprite_frames = SubResource("1")
-animation = &"iceBall"
+animation = &"coin_green"
+frame_progress = 0.0867017
 
 [node name="0" type="CollisionShape2D" parent="ShapeManager"]
+visible = false
 shape = SubResource("RectangleShape2D_fi84t")
 
 [node name="LaserBeam" type="CollisionShape2D" parent="ShapeManager"]
+visible = false
 shape = SubResource("3")
+
+[node name="small_circle" type="CollisionShape2D" parent="ShapeManager"]
+shape = SubResource("CircleShape2D_hmrcn")
 
 [node name="SFX" type="Node2D" parent="."]
 

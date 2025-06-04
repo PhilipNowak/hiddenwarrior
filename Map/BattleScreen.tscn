@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://ctryqfi4ojwa8"]
+[gd_scene load_steps=68 format=3 uid="uid://ctryqfi4ojwa8"]
 
 [ext_resource type="PackedScene" uid="uid://dnwn7rxs622d5" path="res://Enemy/mapPatterns/FireLeft.tscn" id="1_5aymk"]
 [ext_resource type="PackedScene" uid="uid://cqeb43rfc0oip" path="res://Player/player.tscn" id="1_as7u1"]
@@ -9,9 +9,13 @@
 [ext_resource type="Script" uid="uid://dnu6q404wm6qh" path="res://addons/BulletUpHell/Bullet/animStates.gd" id="5_i6wni"]
 [ext_resource type="Script" uid="uid://c6c5hrthfwctu" path="res://addons/BulletUpHell/Bullet/BulletProps.gd" id="6_61ktw"]
 [ext_resource type="Script" uid="uid://bi2wbrcal0rws" path="res://addons/BulletUpHell/SpawnPatterns/PatternOne.gd" id="7_61ktw"]
+[ext_resource type="Script" uid="uid://dkwgdmvo2xi5k" path="res://addons/BulletUpHell/SpawnPatterns/PatternCustomShape.gd" id="7_op1ux"]
+[ext_resource type="Script" uid="uid://ddhxvuxmh7hve" path="res://addons/BulletUpHell/SpawnPatterns/PatternRandomizer.gd" id="7_pu3f2"]
+[ext_resource type="Script" uid="uid://cb3sq0lbhjkyh" path="res://addons/BulletUpHell/SpawnPatterns/PatternCustomArea.gd" id="9_v5pv0"]
 [ext_resource type="PackedScene" uid="uid://byi86y3dg243e" path="res://Enemy/Enemy.tscn" id="10_61ktw"]
 [ext_resource type="Script" uid="uid://d28uo3d7honue" path="res://addons/BulletUpHell/Nodes/BuHTriggerContainer.gd" id="11_qlohi"]
 [ext_resource type="Script" uid="uid://dn4x8e2c0a44k" path="res://addons/BulletUpHell/Triggers/TriggerTime.gd" id="12_c3lqn"]
+[ext_resource type="Script" uid="uid://c7l0sbwxdgpyn" path="res://addons/BulletUpHell/Nodes/BuHSpawnPoint.gd" id="14_pu3f2"]
 
 [sub_resource type="Curve2D" id="Curve2D_qlohi"]
 
@@ -23,8 +27,8 @@ center = 0
 symmetric = true
 bullet = "normal"
 nbr = 5
-iterations = 0
-cooldown_spawn = 3.0
+iterations = -1
+cooldown_spawn = 1.0
 cooldown_shoot = 0.0
 cooldown_next_spawn = 0.0
 cooldown_next_shoot = 0.0
@@ -38,7 +42,7 @@ wait_behavior = 0
 wait_tween_momentum = 0
 wait_tween_length = 0.0
 wait_tween_time = 0.0
-forced_angle = 3.14159
+forced_angle = 0.0
 forced_target = NodePath("")
 forced_lookat_mouse = false
 forced_pattern_lookat = true
@@ -170,7 +174,7 @@ perspective = 1.0
 symmetric = false
 bullet = "normal"
 nbr = 10
-iterations = -1
+iterations = 1
 cooldown_spawn = 1.0
 cooldown_shoot = 0.0
 cooldown_next_spawn = 0.0
@@ -210,10 +214,10 @@ symmetric = false
 bullet = "flames"
 nbr = 4
 iterations = -1
-cooldown_spawn = 1.5
+cooldown_spawn = 0.0
 cooldown_shoot = 0.0
 cooldown_next_spawn = 0.0
-cooldown_next_shoot = 0.3
+cooldown_next_shoot = 0.0
 cooldown_layers = PackedVector2Array()
 cooldown_stasis = false
 on_interruption = 0
@@ -237,7 +241,7 @@ metadata/_custom_type_script = "uid://dkydukbjjmxys"
 
 [sub_resource type="Curve2D" id="Curve2D_br6oq"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_0l5kp"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_pu3f2"]
 resource_name = "PatternOne"
 script = ExtResource("7_61ktw")
 bullet = "iceBall"
@@ -260,6 +264,167 @@ wait_tween_time = 0.0
 forced_angle = 0.0
 forced_target = NodePath("")
 forced_lookat_mouse = true
+forced_pattern_lookat = true
+impulse = 0
+bullet_list = Array[String]([])
+skip_step = 0
+skip_list = Array[PackedInt32Array]([])
+skip_in_list = true
+metadata/_custom_type_script = "uid://bi2wbrcal0rws"
+
+[sub_resource type="Curve2D" id="Curve2D_cl445"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20.2756, 49.6886, 0, 0, 0, 0, 1.7631, 104.474, 0, 0, 0, 0, -12.1654, 73.2589, 0, 0, 0, 0, -23.0966, 172.636, 0, 0, 0, 0, -48.3089, 16.5629, 0, 0, 0, 0, -40.0223, 121.3, 0, 0, 0, 0, -64.4515, 27.9673, 0, 0, 0, 0, -65.0583, 63.6823, 0, 0, 0, 0, -67.5847, 203.602, -4.30556, 20.6883, 4.30556, -20.6883, -74.4027, 244.621, 0, 0, 0, 0, -22.5806, 292.352, 0, 0, 0, 0, -3.52619, 220.361, 0, 0, 0, 0, 22.744, 203.851, 0, 0, 0, 0, 15.6916, 192.384, 0, 0, 0, 0, 41.0802, 113.392, 0, 0, 0, 0, 37.2014, 15.9258, 0, 0, 0, 0, 0, 0)
+}
+point_count = 18
+
+[sub_resource type="Resource" id="Resource_v5pv0"]
+script = ExtResource("7_pu3f2")
+randomisation_chances = 3.0
+bullet_choice = PackedStringArray()
+nbr_choice = PackedInt32Array(2, 3, 8)
+nbr_variation = Vector3(0, 0, 0)
+nbr_reroll = true
+iterations_choice = PackedInt32Array()
+iterations_variation = Vector3(0, 0, 0)
+forced_angle_choice = PackedFloat32Array(5, 90, 180, 75)
+forced_angle_variation = Vector3(0, 0, 0)
+forced_angle_reroll = true
+forced_target_choice = []
+symmetry_chances = 0.0
+center_choice = PackedInt32Array()
+stasis_chances = 0.0
+cooldown_spawn_choice = PackedFloat32Array()
+cooldown_spawn_variation = Vector3(0, 0, 0)
+cooldown_spawn_reroll = false
+cooldown_shoot_choice = PackedFloat32Array()
+cooldown_shoot_variation = Vector3(0, 0, 0)
+cooldown_shoot_reroll = false
+cooldown_next_spawn_choice = PackedFloat32Array()
+cooldown_next_spawn_variation = Vector3(0, 0, 0)
+cooldown_next_spawn_reroll = false
+cooldown_next_shoot_choice = PackedFloat32Array()
+cooldown_next_shoot_variation = Vector3(0, 0, 0)
+cooldown_next_shoot_reroll = false
+offset_x_variation = Vector3(0, 0, 0)
+offset_y_variation = Vector3(0, 0, 0)
+offset_x_reroll = false
+offset_y_reroll = false
+radius_choice = PackedFloat32Array()
+radius_variation = Vector3(0, 0, 0)
+radius_reroll = false
+angle_total_choice = PackedFloat32Array()
+angle_total_variation = Vector3(0, 0, 0)
+angle_total_reroll = false
+angle_decal_choice = PackedFloat32Array()
+angle_decal_variation = Vector3(0, 0, 0)
+angle_decal_reroll = false
+reversed_chances = 0.0
+metadata/_custom_type_script = "uid://ddhxvuxmh7hve"
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_g8p8y"]
+resource_name = "PatternCustomShape"
+script = ExtResource("7_op1ux")
+closed_shape = true
+center_pos = Vector2(0, 0)
+center = 0
+symmetric = false
+symmetry_type = 1
+bullet = "flames"
+nbr = 9
+iterations = -1
+cooldown_spawn = 1.0
+cooldown_shoot = 0.0
+cooldown_next_spawn = 0.0
+cooldown_next_shoot = 0.0
+cooldown_layers = PackedVector2Array()
+cooldown_stasis = false
+on_interruption = 0
+pattern_angle = 0.0
+pattern_angle_target = NodePath("")
+pattern_angle_mouse = false
+wait_behavior = 0
+wait_tween_momentum = 0
+wait_tween_length = 0.0
+wait_tween_time = 0.0
+forced_angle = 0.0
+forced_target = NodePath("")
+forced_lookat_mouse = false
+forced_pattern_lookat = true
+impulse = 0
+bullet_list = Array[String]([])
+skip_step = 0
+skip_list = Array[PackedInt32Array]([])
+skip_in_list = true
+random = SubResource("Resource_v5pv0")
+metadata/_custom_type_script = "uid://dkwgdmvo2xi5k"
+
+[sub_resource type="Curve2D" id="Curve2D_g8p8y"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 29.5, -23.5, 0, 0, 0, 0, 63, 20.25, 0, 0, 0, 0, 25, 42.75, 0, 0, 0, 0, -39.5, 53)
+}
+point_count = 4
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_uvup5"]
+resource_name = "PatternCustomArea"
+script = ExtResource("9_v5pv0")
+center_pos = Vector2(8, 30)
+tries_max = 5
+pooling = 10
+grid_spawning = Vector2(0, 0)
+bullet = "icelet"
+nbr = 9
+iterations = -1
+cooldown_spawn = 1.0
+cooldown_shoot = 0.0
+cooldown_next_spawn = 0.0
+cooldown_next_shoot = 0.0
+cooldown_layers = PackedVector2Array()
+cooldown_stasis = false
+on_interruption = 0
+pattern_angle = 0.0
+pattern_angle_target = NodePath("")
+pattern_angle_mouse = false
+wait_behavior = 0
+wait_tween_momentum = 0
+wait_tween_length = 0.0
+wait_tween_time = 0.0
+forced_angle = 0.0
+forced_target = NodePath("")
+forced_lookat_mouse = false
+forced_pattern_lookat = true
+impulse = 0
+bullet_list = Array[String]([])
+skip_step = 0
+skip_list = Array[PackedInt32Array]([])
+skip_in_list = true
+metadata/_custom_type_script = "uid://cb3sq0lbhjkyh"
+
+[sub_resource type="Curve2D" id="Curve2D_uvup5"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_0l5kp"]
+resource_name = "PatternOne"
+script = ExtResource("7_61ktw")
+bullet = "coinGreen"
+nbr = 1
+iterations = -1
+cooldown_spawn = 1.0
+cooldown_shoot = 0.0
+cooldown_next_spawn = 0.0
+cooldown_next_shoot = 0.0
+cooldown_layers = PackedVector2Array()
+cooldown_stasis = false
+on_interruption = 0
+pattern_angle = 0.0
+pattern_angle_target = NodePath("")
+pattern_angle_mouse = false
+wait_behavior = 0
+wait_tween_momentum = 0
+wait_tween_length = 0.0
+wait_tween_time = 0.0
+forced_angle = 0.0
+forced_target = NodePath("")
+forced_lookat_mouse = false
 forced_pattern_lookat = true
 impulse = 0
 bullet_list = Array[String]([])
@@ -494,7 +659,7 @@ metadata/_custom_type_script = "uid://dnu6q404wm6qh"
 [sub_resource type="PackedDataContainer" id="PackedDataContainer_g8p8y"]
 script = ExtResource("6_61ktw")
 damage = 5.0
-speed = 300.0
+speed = 600.0
 scale = 4.0
 angle = 0.0
 groups = PackedStringArray()
@@ -586,8 +751,6 @@ r_scale_multi_scale_variation = Vector3(0, 0, 0)
 
 [sub_resource type="Curve2D" id="Curve2D_mgekf"]
 
-[sub_resource type="Curve" id="Curve_j2hyd"]
-
 [sub_resource type="Resource" id="Resource_cl445"]
 script = ExtResource("5_i6wni")
 ID = ""
@@ -602,7 +765,7 @@ metadata/_custom_type_script = "uid://dnu6q404wm6qh"
 
 [sub_resource type="PackedDataContainer" id="PackedDataContainer_pygq7"]
 script = ExtResource("6_61ktw")
-damage = 1.0
+damage = 30.0
 speed = 300.0
 scale = 4.0
 angle = 0.0
@@ -629,7 +792,6 @@ a_angular_equation = ""
 a_curve_movement = 0
 a_speed_multi_iterations = 0
 a_speed_multi_scale = 0.0
-a_speed_multiplier = SubResource("Curve_j2hyd")
 depth_active = Vector2(0, 0)
 depth_spawn = 0.0
 depth_speed = 100.0
@@ -733,7 +895,7 @@ spec_trail_modulate = Color(1, 1, 1, 1)
 spec_trail_fade_out = false
 spec_trail_thin_out = false
 spec_trail_smooth = 0.03
-a_direction_equation = ""
+a_direction_equation = "x"
 a_angular_equation = ""
 a_curve_movement = 0
 a_speed_multi_iterations = 0
@@ -802,12 +964,121 @@ r_scale_multi_curve_choice = []
 r_scale_multi_iter_variation = Vector3(0, 0, 0)
 r_scale_multi_scale_variation = Vector3(0, 0, 0)
 
+[sub_resource type="Curve2D" id="Curve2D_pygq7"]
+
+[sub_resource type="Curve" id="Curve_uvup5"]
+
+[sub_resource type="Resource" id="Resource_4wbui"]
+script = ExtResource("5_i6wni")
+ID = ""
+texture = "coin_green"
+collision = "small_circle"
+SFX = ""
+tex_scale = 1.0
+tex_skew = 0.0
+metadata/_custom_type_script = "uid://dnu6q404wm6qh"
+
+[sub_resource type="Curve" id="Curve_2vu65"]
+
+[sub_resource type="PackedDataContainer" id="PackedDataContainer_oxwp8"]
+script = ExtResource("6_61ktw")
+damage = 1.0
+speed = 200.0
+scale = 10.0
+angle = 0.0
+groups = PackedStringArray()
+custom_data = {}
+death_after_time = 30.0
+death_outside_box = Rect2(0, 0, 0, 0)
+death_from_collision = true
+death_speed_under = 0.0
+death_culling_overwrite = 3
+spec_modulate_loop = 0.0
+no_rotation = false
+z_index = 0
+anim_idle = SubResource("Resource_4wbui")
+anim_more = Array[ExtResource("5_i6wni")]([])
+spec_trail_length = 0.0
+spec_trail_width = 0.0
+spec_trail_modulate = Color(1, 1, 1, 1)
+spec_trail_fade_out = false
+spec_trail_thin_out = false
+spec_trail_smooth = 0.03
+a_direction_equation = ""
+a_angular_equation = ""
+a_curve_movement = 0
+a_speed_multi_iterations = 0
+a_speed_multi_scale = 0.0
+a_speed_multiplier = SubResource("Curve_uvup5")
+depth_active = Vector2(0, 0)
+depth_spawn = 0.0
+depth_speed = 100.0
+depth_min_max = Vector2(-300, 100)
+depth_bounce = false
+spec_bounces = 0
+spec_no_collision = false
+spec_rotating_speed = 0.0
+spec_only_spin_sprite = true
+spec_weight = 1.0
+scale_multi_iterations = 0
+scale_multiplier = SubResource("Curve_2vu65")
+scale_multi_scale = 1.0
+trigger_container = ""
+trigger_wait_for_shot = true
+homing_type = 0
+homing_target = NodePath("")
+homing_steer = 0.0
+homing_time_start = 0.0
+homing_duration = 999.0
+homing_detection_dist = 0.0
+homing_start_signal = ""
+homing_range = Vector2(9999, 20)
+homing_imprecision = Vector2(0, 0)
+r_randomisation_chances = 1.0
+r_speed_choice = PackedFloat32Array()
+r_speed_variation = Vector3(0, 0, 0)
+r_scale_choice = PackedFloat32Array()
+r_scale_variation = Vector3(0, 0, 0)
+r_angle_choice = PackedFloat32Array()
+r_angle_variation = Vector3(0, 0, 0)
+r_group_choice = []
+r_bounce_choice = PackedInt32Array()
+r_bounce_variation = Vector3(0, 0, 0)
+r_no_coll_chances = 0.0
+r_modulate_variation = Vector3(0, 0, 0)
+r_trail_length_variation = Vector3(0, 0, 0)
+r_trail_color_variation = Vector3(0, 0, 0)
+r_rotating_variation = Vector3(0, 0, 0)
+r_death_after_choice = PackedFloat32Array()
+r_death_after_variation = Vector3(0, 0, 0)
+r_death_outside_chances = 0.0
+r_dir_equation_choice = PackedStringArray()
+r_curve_choice = []
+r_speed_multi_curve_choice = []
+r_speed_multi_iter_variation = Vector3(0, 0, 0)
+r_speed_multi_scale_variation = Vector3(0, 0, 0)
+r_trigger_choice = PackedStringArray()
+r_wait_for_shot_chances = 0.0
+r_homing_target_choice = []
+r_special_target_choice = PackedStringArray()
+r_group_target_choice = PackedStringArray()
+r_pos_target_choice = PackedVector2Array()
+r_steer_choice = PackedFloat32Array()
+r_steer_variation = Vector3(0, 0, 0)
+r_homing_delay_choice = PackedFloat32Array()
+r_homing_delay_variation = Vector3(0, 0, 0)
+r_homing_dur_choice = PackedFloat32Array()
+r_homing_dur_variation = Vector3(0, 0, 0)
+r_scale_multi_curve_choice = []
+r_scale_multi_iter_variation = Vector3(0, 0, 0)
+r_scale_multi_scale_variation = Vector3(0, 0, 0)
+
 [sub_resource type="RichTextEffect" id="RichTextEffect_oxwp8"]
 script = ExtResource("12_c3lqn")
 time = 1.0
 metadata/_custom_type_script = "uid://dn4x8e2c0a44k"
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_aw5j7"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_pygq7"]
 resource_name = "PatternOne"
 script = ExtResource("7_61ktw")
 bullet = "icelet"
@@ -844,10 +1115,12 @@ metadata/_custom_type_script = "uid://bi2wbrcal0rws"
 position = Vector2(287, 364)
 
 [node name="FireLeft" parent="." instance=ExtResource("1_5aymk")]
+position = Vector2(196, -290)
 
 [node name="SpawnPatterns" type="Node" parent="."]
 
 [node name="SpawnPattern" type="Path2D" parent="SpawnPatterns"]
+visible = false
 curve = SubResource("Curve2D_qlohi")
 script = ExtResource("2_as7u1")
 id = "line_left"
@@ -855,6 +1128,7 @@ pattern = SubResource("NavigationPolygon_c3lqn")
 metadata/_custom_type_script = "uid://cysgobyq3fmli"
 
 [node name="arcAtPlayer" type="Path2D" parent="SpawnPatterns"]
+visible = false
 curve = SubResource("Curve2D_j1ikc")
 script = ExtResource("2_as7u1")
 id = "arcAtPlayer"
@@ -862,6 +1136,7 @@ pattern = SubResource("NavigationPolygon_i6wni")
 metadata/_custom_type_script = "uid://cysgobyq3fmli"
 
 [node name="atMouse" type="Path2D" parent="SpawnPatterns"]
+visible = false
 curve = SubResource("Curve2D_i6wni")
 script = ExtResource("2_as7u1")
 id = "atMouse"
@@ -869,6 +1144,7 @@ pattern = SubResource("NavigationPolygon_qlohi")
 metadata/_custom_type_script = "uid://cysgobyq3fmli"
 
 [node name="arrowAtPlayer" type="Path2D" parent="SpawnPatterns"]
+visible = false
 curve = SubResource("Curve2D_c3lqn")
 script = ExtResource("2_as7u1")
 id = "arrowAtPlayer"
@@ -876,6 +1152,7 @@ pattern = SubResource("NavigationPolygon_op1ux")
 metadata/_custom_type_script = "uid://cysgobyq3fmli"
 
 [node name="Circle" type="Path2D" parent="SpawnPatterns"]
+visible = false
 curve = SubResource("Curve2D_pu3f2")
 script = ExtResource("2_as7u1")
 id = "circle"
@@ -883,6 +1160,7 @@ pattern = SubResource("NavigationPolygon_v5pv0")
 metadata/_custom_type_script = "uid://cysgobyq3fmli"
 
 [node name="flameCircle" type="Path2D" parent="SpawnPatterns"]
+visible = false
 curve = SubResource("Curve2D_v5pv0")
 script = ExtResource("2_as7u1")
 id = "flames"
@@ -890,9 +1168,40 @@ pattern = SubResource("NavigationPolygon_br6oq")
 metadata/_custom_type_script = "uid://cysgobyq3fmli"
 
 [node name="iceBall" type="Path2D" parent="SpawnPatterns"]
+visible = false
 curve = SubResource("Curve2D_br6oq")
 script = ExtResource("2_as7u1")
 id = "iceBall"
+pattern = SubResource("NavigationPolygon_pu3f2")
+metadata/_custom_type_script = "uid://cysgobyq3fmli"
+
+[node name="shape" type="Path2D" parent="SpawnPatterns"]
+visible = false
+position = Vector2(126.836, -4)
+scale = Vector2(11.372, 2.6817)
+curve = SubResource("Curve2D_cl445")
+script = ExtResource("2_as7u1")
+id = "shape"
+pattern = SubResource("NavigationPolygon_g8p8y")
+preview_spawn = true
+preview_shoot = true
+metadata/_custom_type_script = "uid://cysgobyq3fmli"
+
+[node name="area" type="Path2D" parent="SpawnPatterns"]
+position = Vector2(100, 0)
+scale = Vector2(4, 4)
+curve = SubResource("Curve2D_g8p8y")
+script = ExtResource("2_as7u1")
+id = "area"
+pattern = SubResource("NavigationPolygon_uvup5")
+preview_spawn = true
+preview_shoot = true
+metadata/_custom_type_script = "uid://cysgobyq3fmli"
+
+[node name="greenCoinSingle" type="Path2D" parent="SpawnPatterns"]
+curve = SubResource("Curve2D_uvup5")
+script = ExtResource("2_as7u1")
+id = "greenCoinSingle"
 pattern = SubResource("NavigationPolygon_0l5kp")
 metadata/_custom_type_script = "uid://cysgobyq3fmli"
 
@@ -933,6 +1242,13 @@ id = "icelet"
 props = SubResource("PackedDataContainer_2vu65")
 metadata/_custom_type_script = "uid://7vaaon3mwqkw"
 
+[node name="coinGreen" type="Path2D" parent="BulletPatterns"]
+curve = SubResource("Curve2D_pygq7")
+script = ExtResource("4_j1ikc")
+id = "coinGreen"
+props = SubResource("PackedDataContainer_oxwp8")
+metadata/_custom_type_script = "uid://7vaaon3mwqkw"
+
 [node name="Enemy" parent="." instance=ExtResource("10_61ktw")]
 position = Vector2(1224, 433)
 
@@ -940,8 +1256,21 @@ position = Vector2(1224, 433)
 script = ExtResource("11_qlohi")
 id = "icelet"
 advanced_controls = "0=0
-1>|
-"
+>0"
 triggers = Array[RichTextEffect]([SubResource("RichTextEffect_oxwp8")])
-patterns = Array[NavigationPolygon]([SubResource("NavigationPolygon_aw5j7")])
+patterns = Array[NavigationPolygon]([SubResource("NavigationPolygon_pygq7")])
 metadata/_custom_type_script = "uid://d28uo3d7honue"
+
+[node name="SpawnPoint" type="Node2D" parent="."]
+position = Vector2(742, 807)
+script = ExtResource("14_pu3f2")
+auto_pattern_id = "greenCoinSingle"
+pool_amount = 4000
+r_active_chances = 1.0
+r_rotating_variation = Vector3(0, 0, 0)
+r_pattern_choice = ""
+r_start_time_choice = ""
+r_start_time_variation = Vector3(0, 0, 0)
+r_start_distance_choice = ""
+r_start_distance_variation = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://c7l0sbwxdgpyn"
