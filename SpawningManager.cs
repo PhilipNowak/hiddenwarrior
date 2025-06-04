@@ -51,9 +51,62 @@ public static class Spawning
         SpawningManager.Instance.Call("create_pool", bulletId, GetCollisionArea(spawner), number);
     }
 
-    public static Variant GenerateNewBulletProps()
+    public static Variant CreateBulletPattern(string id, string bulletId, PatternType type)
     {
-        return SpawningManager.Instance.Call("generate_new_bulletprops");
+        var pattern = "";
+
+        if (type == PatternType.Circle)
+        {
+            pattern = "PatternCircle";    
+        }
+        else if (type == PatternType.Line)
+        {
+            pattern = "PatternLine";
+        }
+        else if (type == PatternType.One)
+        {
+            pattern = "PatternOne";
+        }
+
+        var createdPattern = SpawningManager.Instance.Call("create_pattern", pattern);
+
+        var patternProps = createdPattern.As<Godot.Collections.Dictionary>();
+        // if (patternProps != null)
+        // {
+        //     patternProps["nbr"] = 7;
+        //     patternProps["bullet"] = bulletId;
+        // }
+
+        var sanitizedPattern = SpawningManager.Instance.Call("sanitize_pattern", createdPattern, SpawningManager.Instance);
+
+        var newPattern = SpawningManager.Instance.Call("new_pattern", id,  sanitizedPattern);
+
+        return newPattern;
+    }
+
+    public static Variant GenerateNewBulletProps(BulletProps props, string id)
+    {
+        var bulletProps = SpawningManager.Instance.Call("generate_new_bulletprops");
+        // var dict = bulletProps.As<Godot.Collections.Dictionary>();
+        var dict = bulletProps.Obj as Godot.Collections.Dictionary;
+        if (dict != null)
+        {
+            dict["damage"] = props.damage;
+            dict["speed"] = props.speed;
+            dict["scale"] = props.scale;
+            // dict["anim_idle"] = new Godot.Collections.Dictionary
+            // {
+            //     {"texture_name", props.anim_idle.texture_name},
+            //     {"collision", props.anim_idle.collision}
+            // };
+            //return dict;
+        }
+
+        var sanitizedPattern = SpawningManager.Instance.Call("sanitize_bulletprops", bulletProps, id, SpawningManager.Instance);
+        var test = SpawningManager.Instance.Call("new_bullet", id, sanitizedPattern);
+        
+        return test;
+
     }
 
     private static string GetCollisionArea(BulletSpawner spawner)

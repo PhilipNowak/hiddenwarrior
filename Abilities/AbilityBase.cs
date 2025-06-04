@@ -25,12 +25,21 @@ public partial class AbilityBase : Node
         };
         AddChild(CooldownTimer);
         CooldownTimer.Timeout += CooldownEnd;
-        var test = Spawning.GenerateNewBulletProps();
+
+        var test = Spawning.GenerateNewBulletProps(new BulletProps()
+        {
+            damage = 100,
+            speed = 500,
+            scale = 1.5f,
+
+        }, "myTestBullet");
         GD.Print(test);
+        var aaa = Spawning.CreateBulletPattern("myTestPattern", "myTestBullet", PatternType.Circle);
+        GD.Print(aaa);
+        
         Spawning.CreateBulletPool("normal", 300, BulletSpawner.Player);
     }
 
-    
 
     private void CooldownEnd()
     {
@@ -49,7 +58,7 @@ public partial class AbilityBase : Node
         if (AbilityType == AbilityTypes.SpawnAtMouse)
         {
             var mousePosition = GetViewport().GetMousePosition();
-            Spawning.Spawn(mousePosition, 0, "circle", BulletSpawner.Player);
+            Spawning.Spawn(mousePosition, 0, "myTestPattern", BulletSpawner.Player);
             IsOnCooldown = true;
             CooldownTimer.Start(CooldownTime);
         }

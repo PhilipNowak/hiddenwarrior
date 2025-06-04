@@ -203,8 +203,20 @@ func call_custom(function:String, argv:Array=[]):
 	CUSTOM.callv(function, argv)
 
 
-
-
+func create_pattern(type:String):
+	var pattern;
+	match type:
+		"PatternCircle":
+			pattern = PatternCircle.new();
+		"PatternLine":
+			pattern = PatternLine.new();
+		"PatternOne":
+			pattern = PatternOne.new();
+	
+	pattern.nbr = 7;
+	pattern.bullet = "myTestBullet";
+	
+	return pattern;
 #§§§§§§§§§§§§§ RESOURCES §§§§§§§§§§§§§
 
 func new_instance(id:String, instance:Node2D):
@@ -393,11 +405,11 @@ func set_anim_states(a:animState, P:String="", id:String=""):
 
 	arrayAnim[a.ID] = [a.texture, col, sfx, a.tex_scale, a.tex_skew]
 	return a.ID
+	
 
 func sanitize_pattern(pattern:Pattern, source:Node):
 	if pattern.forced_target: pattern.node_target = source.get_node(pattern.forced_target)
 	if pattern.get("pattern_angle_target"):
-		var test = pattern.get("pattern_angle_target");
 		pattern.node_pattern_target = source.get_node(pattern.pattern_angle_target)
 	if pattern.resource_name == "PatternCustomShape":
 		if pattern.closed_shape: pattern.symmetry_type = SYMTYPE.ClosedShape
