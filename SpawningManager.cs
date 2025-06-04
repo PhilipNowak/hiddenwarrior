@@ -32,10 +32,10 @@ public static class Spawning
 
     public static void Spawn(Node spawningNode, string patternId, BulletSpawner spawner = BulletSpawner.Enemy)
     {
-        SpawningManager.Instance.Call("spawn", spawningNode, patternId, spawner == BulletSpawner.Enemy ? "0" : "2");
+        SpawningManager.Instance.Call("spawn", spawningNode, patternId, GetCollisionArea(spawner));
     }
 
-     public static void Spawn(Vector2 position, int rotation, string patternId, BulletSpawner spawner = BulletSpawner.Enemy)
+    public static void Spawn(Vector2 position, int rotation, string patternId, BulletSpawner spawner = BulletSpawner.Enemy)
     {
         var dict = new Godot.Collections.Dictionary()
         {
@@ -43,6 +43,21 @@ public static class Spawning
             {"rotation", rotation}
         };
 
-        SpawningManager.Instance.Call("spawn", dict, patternId, spawner == BulletSpawner.Enemy ? "0" : "2");
+        SpawningManager.Instance.Call("spawn", dict, patternId, GetCollisionArea(spawner));
+    }
+
+    public static void CreateBulletPool(string bulletId, int number, BulletSpawner spawner)
+    {
+        SpawningManager.Instance.Call("create_pool", bulletId, GetCollisionArea(spawner), number);
+    }
+
+    public static Variant GenerateNewBulletProps()
+    {
+        return SpawningManager.Instance.Call("generate_new_bulletprops");
+    }
+
+    private static string GetCollisionArea(BulletSpawner spawner)
+    {
+        return spawner == BulletSpawner.Enemy ? "0" : "2";
     }
 }

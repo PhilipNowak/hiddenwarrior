@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://ctryqfi4ojwa8"]
+[gd_scene load_steps=69 format=3 uid="uid://ctryqfi4ojwa8"]
 
 [ext_resource type="PackedScene" uid="uid://dnwn7rxs622d5" path="res://Enemy/mapPatterns/FireLeft.tscn" id="1_5aymk"]
 [ext_resource type="PackedScene" uid="uid://cqeb43rfc0oip" path="res://Player/player.tscn" id="1_as7u1"]
@@ -751,6 +751,8 @@ r_scale_multi_scale_variation = Vector3(0, 0, 0)
 
 [sub_resource type="Curve2D" id="Curve2D_mgekf"]
 
+[sub_resource type="Curve" id="Curve_br6oq"]
+
 [sub_resource type="Resource" id="Resource_cl445"]
 script = ExtResource("5_i6wni")
 ID = ""
@@ -792,6 +794,7 @@ a_angular_equation = ""
 a_curve_movement = 0
 a_speed_multi_iterations = 0
 a_speed_multi_scale = 0.0
+a_speed_multiplier = SubResource("Curve_br6oq")
 depth_active = Vector2(0, 0)
 depth_spawn = 0.0
 depth_speed = 100.0
@@ -1111,9 +1114,6 @@ metadata/_custom_type_script = "uid://bi2wbrcal0rws"
 
 [node name="BattleScreen" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_as7u1")]
-position = Vector2(287, 364)
-
 [node name="FireLeft" parent="." instance=ExtResource("1_5aymk")]
 position = Vector2(196, -290)
 
@@ -1274,3 +1274,6 @@ r_start_time_variation = Vector3(0, 0, 0)
 r_start_distance_choice = ""
 r_start_distance_variation = Vector3(0, 0, 0)
 metadata/_custom_type_script = "uid://c7l0sbwxdgpyn"
+
+[node name="Player" parent="." instance=ExtResource("1_as7u1")]
+position = Vector2(287, 364)

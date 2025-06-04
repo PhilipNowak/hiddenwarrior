@@ -18,13 +18,19 @@ public partial class AbilityBase : Node
     public override void _Ready()
     {
         base._Ready();
-        // CooldownTimer = new Timer()
-        // {
-        //     WaitTime = CooldownTime,
-        //     Autostart = true
-        // };
+        CooldownTimer = new Timer()
+        {
+            WaitTime = CooldownTime,
+            Autostart = true
+        };
+        AddChild(CooldownTimer);
         CooldownTimer.Timeout += CooldownEnd;
+        var test = Spawning.GenerateNewBulletProps();
+        GD.Print(test);
+        Spawning.CreateBulletPool("normal", 300, BulletSpawner.Player);
     }
+
+    
 
     private void CooldownEnd()
     {
@@ -43,7 +49,7 @@ public partial class AbilityBase : Node
         if (AbilityType == AbilityTypes.SpawnAtMouse)
         {
             var mousePosition = GetViewport().GetMousePosition();
-            Spawning.Spawn(mousePosition, 0, "circle", BulletSpawner.Enemy);
+            Spawning.Spawn(mousePosition, 0, "circle", BulletSpawner.Player);
             IsOnCooldown = true;
             CooldownTimer.Start(CooldownTime);
         }

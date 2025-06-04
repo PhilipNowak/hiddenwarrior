@@ -32,11 +32,7 @@ r_start_distance_choice = ""
 r_start_distance_variation = Vector3(0, 0, 0)
 metadata/_custom_type_script = "uid://c7l0sbwxdgpyn"
 
-[node name="Ability" type="Node" parent="." node_paths=PackedStringArray("CooldownTimer")]
+[node name="Ability" type="Node" parent="."]
 script = ExtResource("5_k53q1")
 AbilityType = 1
-CooldownTimer = NodePath("Timer")
 CooldownTime = 1.0
-
-[node name="Timer" type="Timer" parent="Ability"]
-wait_time = 1.626
