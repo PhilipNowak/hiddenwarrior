@@ -1,0 +1,153 @@
+[gd_scene load_steps=10 format=3 uid="uid://dc1prj3qo5tue"]
+
+[ext_resource type="Script" uid="uid://vyke4e6p6ly" path="res://Abilities/AbilityBase.cs" id="1_pp5i1"]
+[ext_resource type="Script" uid="uid://bi2wbrcal0rws" path="res://addons/BulletUpHell/SpawnPatterns/PatternOne.gd" id="2_1tb3n"]
+[ext_resource type="Script" uid="uid://dnu6q404wm6qh" path="res://addons/BulletUpHell/Bullet/animStates.gd" id="3_1tb3n"]
+[ext_resource type="Script" uid="uid://c6c5hrthfwctu" path="res://addons/BulletUpHell/Bullet/BulletProps.gd" id="4_hbxs5"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_hbxs5"]
+resource_name = "PatternOne"
+script = ExtResource("2_1tb3n")
+bullet = ""
+nbr = 3
+iterations = 1
+cooldown_spawn = 1.0
+cooldown_shoot = 0.0
+cooldown_next_spawn = 0.0
+cooldown_next_shoot = 0.0
+cooldown_layers = PackedVector2Array()
+cooldown_stasis = false
+on_interruption = 0
+pattern_angle = 0.0
+pattern_angle_target = NodePath("")
+pattern_angle_mouse = false
+wait_behavior = 0
+wait_tween_momentum = 0
+wait_tween_length = 0.0
+wait_tween_time = 0.0
+forced_angle = 0.0
+forced_target = NodePath("")
+forced_lookat_mouse = true
+forced_pattern_lookat = true
+impulse = 0
+bullet_list = Array[String]([])
+skip_step = 0
+skip_list = Array[PackedInt32Array]([])
+skip_in_list = true
+metadata/_custom_type_script = "uid://bi2wbrcal0rws"
+
+[sub_resource type="Curve" id="Curve_6470d"]
+
+[sub_resource type="Resource" id="Resource_4bnop"]
+script = ExtResource("3_1tb3n")
+ID = ""
+texture = "flame_red"
+collision = "small_circle"
+SFX = ""
+tex_scale = 1.0
+tex_skew = 0.0
+metadata/_custom_type_script = "uid://dnu6q404wm6qh"
+
+[sub_resource type="Curve" id="Curve_ukhft"]
+
+[sub_resource type="PackedDataContainer" id="PackedDataContainer_8ejkv"]
+script = ExtResource("4_hbxs5")
+damage = 1.0
+speed = 400.0
+scale = 5.0
+angle = 0.0
+groups = PackedStringArray()
+custom_data = {}
+death_after_time = 3.0
+death_outside_box = Rect2(0, 0, 0, 0)
+death_from_collision = true
+death_speed_under = 0.0
+death_culling_overwrite = 3
+spec_modulate_loop = 0.0
+no_rotation = false
+z_index = 0
+anim_idle = SubResource("Resource_4bnop")
+anim_more = Array[ExtResource("3_1tb3n")]([])
+spec_trail_length = 0.0
+spec_trail_width = 0.0
+spec_trail_modulate = Color(1, 1, 1, 1)
+spec_trail_fade_out = false
+spec_trail_thin_out = false
+spec_trail_smooth = 0.03
+a_direction_equation = ""
+a_angular_equation = ""
+a_curve_movement = 0
+a_speed_multi_iterations = 0
+a_speed_multi_scale = 0.0
+a_speed_multiplier = SubResource("Curve_6470d")
+depth_active = Vector2(0, 0)
+depth_spawn = 0.0
+depth_speed = 100.0
+depth_min_max = Vector2(-300, 100)
+depth_bounce = false
+spec_bounces = 0
+spec_no_collision = false
+spec_rotating_speed = 0.0
+spec_only_spin_sprite = true
+spec_weight = 1.0
+scale_multi_iterations = 0
+scale_multiplier = SubResource("Curve_ukhft")
+scale_multi_scale = 1.0
+trigger_container = ""
+trigger_wait_for_shot = true
+homing_type = 0
+homing_target = NodePath("")
+homing_steer = 0.0
+homing_time_start = 0.0
+homing_duration = 999.0
+homing_detection_dist = 0.0
+homing_start_signal = ""
+homing_range = Vector2(9999, 20)
+homing_imprecision = Vector2(0, 0)
+r_randomisation_chances = 1.0
+r_speed_choice = PackedFloat32Array()
+r_speed_variation = Vector3(0, 0, 0)
+r_scale_choice = PackedFloat32Array()
+r_scale_variation = Vector3(0, 0, 0)
+r_angle_choice = PackedFloat32Array()
+r_angle_variation = Vector3(0, 0, 0)
+r_group_choice = []
+r_bounce_choice = PackedInt32Array()
+r_bounce_variation = Vector3(0, 0, 0)
+r_no_coll_chances = 0.0
+r_modulate_variation = Vector3(0, 0, 0)
+r_trail_length_variation = Vector3(0, 0, 0)
+r_trail_color_variation = Vector3(0, 0, 0)
+r_rotating_variation = Vector3(0, 0, 0)
+r_death_after_choice = PackedFloat32Array()
+r_death_after_variation = Vector3(0, 0, 0)
+r_death_outside_chances = 0.0
+r_dir_equation_choice = PackedStringArray()
+r_curve_choice = []
+r_speed_multi_curve_choice = []
+r_speed_multi_iter_variation = Vector3(0, 0, 0)
+r_speed_multi_scale_variation = Vector3(0, 0, 0)
+r_trigger_choice = PackedStringArray()
+r_wait_for_shot_chances = 0.0
+r_homing_target_choice = []
+r_special_target_choice = PackedStringArray()
+r_group_target_choice = PackedStringArray()
+r_pos_target_choice = PackedVector2Array()
+r_steer_choice = PackedFloat32Array()
+r_steer_variation = Vector3(0, 0, 0)
+r_homing_delay_choice = PackedFloat32Array()
+r_homing_delay_variation = Vector3(0, 0, 0)
+r_homing_dur_choice = PackedFloat32Array()
+r_homing_dur_variation = Vector3(0, 0, 0)
+r_scale_multi_curve_choice = []
+r_scale_multi_iter_variation = Vector3(0, 0, 0)
+r_scale_multi_scale_variation = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://c6c5hrthfwctu"
+
+[node name="FireBall" type="Node"]
+script = ExtResource("1_pp5i1")
+Id = "FireBall"
+CooldownTime = 0.5
+Pattern = SubResource("NavigationPolygon_hbxs5")
+Bullet = SubResource("PackedDataContainer_8ejkv")
+metadata/_custom_type_script = "uid://vyke4e6p6ly"

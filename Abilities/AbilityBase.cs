@@ -2,8 +2,12 @@ using Godot;
 using HiddenWarrior.Abilities;
 using System;
 
+[GlobalClass]
 public partial class AbilityBase : Node
 {
+    [Export]
+    public string Id { get; set; }
+
     [Export]
     public AbilityTypes AbilityType { get; set; }
     [Export]
@@ -11,6 +15,12 @@ public partial class AbilityBase : Node
 
     [Export]
     public double CooldownTime { get; set; }
+
+    [Export]
+    public NavigationPolygon Pattern { get; set; }
+    [Export]
+    public PackedDataContainer Bullet { get; set; }
+
     private bool IsOnCooldown { get; set; } = false;
 
     public bool Toggle { get; set; }
@@ -21,23 +31,21 @@ public partial class AbilityBase : Node
         CooldownTimer = new Timer()
         {
             WaitTime = CooldownTime,
-            Autostart = true
+            Autostart = false,
+            OneShot = true
         };
         AddChild(CooldownTimer);
         CooldownTimer.Timeout += CooldownEnd;
 
-        var test = Spawning.GenerateNewBulletProps(new BulletProps()
-        {
-            damage = 100,
-            speed = 500,
-            scale = 1.5f,
+        GD.Print("load spawnning resource");
 
-        }, "myTestBullet");
+        Pattern.Set("bullet", Id);
+        var test = Spawning.GenerateNewBulletProps(Bullet, Id);
         GD.Print(test);
-        var aaa = Spawning.CreateBulletPattern("myTestPattern", "myTestBullet", PatternType.Circle);
+        var aaa = Spawning.CreateBulletPattern(Id, Pattern);
         GD.Print(aaa);
-        
-        Spawning.CreateBulletPool("normal", 300, BulletSpawner.Player);
+
+        Spawning.CreateBulletPool(Id, 300, BulletSpawner.Player);
     }
 
 
@@ -58,10 +66,15 @@ public partial class AbilityBase : Node
         if (AbilityType == AbilityTypes.SpawnAtMouse)
         {
             var mousePosition = GetViewport().GetMousePosition();
-            Spawning.Spawn(mousePosition, 0, "myTestPattern", BulletSpawner.Player);
-            IsOnCooldown = true;
-            CooldownTimer.Start(CooldownTime);
+            Spawning.Spawn(mousePosition, 0, Id, BulletSpawner.Player);
         }
+        else
+        {
+            Spawning.Spawn(Player.PlayerInstance, Id, BulletSpawner.Player);
+        }
+
+        IsOnCooldown = true;
+        CooldownTimer.Start(CooldownTime);
     }
 
 }

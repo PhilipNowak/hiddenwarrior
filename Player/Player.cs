@@ -1,8 +1,10 @@
 using Godot;
 using System;
+using System.Dynamic;
 
 public partial class Player : CharacterBody2D
 {
+    public static Player PlayerInstance { get; private set;}
     [Export]
     public CustomShape CustomShape { get; set; }
     [Export]
@@ -72,6 +74,7 @@ public partial class Player : CharacterBody2D
     public override void _Ready()
     {
         CustomShape.Color = Color;
+        PlayerInstance = this;
     }    
     
 }

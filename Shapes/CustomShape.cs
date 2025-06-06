@@ -11,13 +11,11 @@ public partial class CustomShape : CollisionPolygon2D
         get => _color;
         set
         {
-            GD.Print("Setting color to: " + value);
             _color = value;
             var polygon = GetNodeOrNull<Polygon2D>("shape");
             if (polygon != null)
             {
                 polygon.Color = value;
-                GD.Print("Polygon2D color set");
             }
         }
     }
@@ -26,7 +24,6 @@ public partial class CustomShape : CollisionPolygon2D
     {
         // Called when the node is added to the scene.
         // Initialize the custom shape
-        GD.Print("Custom shape initialized");
 
     }
 }

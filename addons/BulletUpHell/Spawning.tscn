@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://gixop20d1d75"]
+[gd_scene load_steps=38 format=3 uid="uid://gixop20d1d75"]
 
 [ext_resource type="Script" uid="uid://dikwg1d58fmf" path="res://addons/BulletUpHell/BuHSpawner.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://yttrgpog0o6r" path="res://addons/BulletUpHell/Bullet/Sprites/Bullet_3.png" id="2_3slxn"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://buxm4gxuyjkfx" path="res://art/All_Fire_Bullet_Pixel_16x16_03.png" id="6_hmrcn"]
 [ext_resource type="Texture2D" uid="uid://dqboyu4kyriw6" path="res://art/All_Fire_Bullet_Pixel_16x16_00.png" id="6_vcv82"]
 [ext_resource type="Texture2D" uid="uid://c571vrngbsibu" path="res://art/All_Fire_Bullet_Pixel_16x16_02.png" id="7_78yhu"]
+[ext_resource type="Texture2D" uid="uid://8bdh6g77wx37" path="res://art/All_Fire_Bullet_Pixel_16x16_01.png" id="8_7kntm"]
 [ext_resource type="Script" uid="uid://7bhldsh5m1gy" path="res://addons/BulletUpHell/Drawer.gd" id="8_pebki"]
 
 [sub_resource type="Resource" id="Resource_s2qvk"]
@@ -91,6 +92,22 @@ region = Rect2(48, 1, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_nuj4b"]
 atlas = ExtResource("6_vcv82")
 region = Rect2(64, 1, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxfbe"]
+atlas = ExtResource("8_7kntm")
+region = Rect2(176, 224, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3df0"]
+atlas = ExtResource("8_7kntm")
+region = Rect2(192, 224, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hinud"]
+atlas = ExtResource("8_7kntm")
+region = Rect2(208, 224, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8msds"]
+atlas = ExtResource("8_7kntm")
+region = Rect2(224, 224, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6f7cb"]
 atlas = ExtResource("7_78yhu")
@@ -193,6 +210,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_bxfbe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3df0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hinud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8msds")
+}],
+"loop": true,
+"name": &"flame_red",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_6f7cb")
 }, {
 "duration": 1.0,
@@ -242,12 +276,11 @@ collision_layer = 8
 collision_mask = 5
 
 [node name="ShapeManager" type="AnimatedSprite2D" parent="."]
-visible = false
 texture_filter = 3
 position = Vector2(0, -2.5)
 sprite_frames = SubResource("1")
-animation = &"coin_green"
-frame_progress = 0.0867017
+animation = &"flame_red"
+frame_progress = 0.276654
 
 [node name="0" type="CollisionShape2D" parent="ShapeManager"]
 visible = false
@@ -258,6 +291,7 @@ visible = false
 shape = SubResource("3")
 
 [node name="small_circle" type="CollisionShape2D" parent="ShapeManager"]
+visible = false
 shape = SubResource("CircleShape2D_hmrcn")
 
 [node name="SFX" type="Node2D" parent="."]

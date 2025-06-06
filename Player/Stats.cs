@@ -13,6 +13,5 @@ public partial class Stats : Node
     {
         Health = MaxHealth;
         // Initialize stats or perform any setup needed
-        GD.Print("Stats initialized");
     }
 }

@@ -202,21 +202,6 @@ func call_custom(function:String, argv:Array=[]):
 	if not CUSTOM.has_method(function): return
 	CUSTOM.callv(function, argv)
 
-
-func create_pattern(type:String):
-	var pattern;
-	match type:
-		"PatternCircle":
-			pattern = PatternCircle.new();
-		"PatternLine":
-			pattern = PatternLine.new();
-		"PatternOne":
-			pattern = PatternOne.new();
-	
-	pattern.nbr = 7;
-	pattern.bullet = "myTestBullet";
-	
-	return pattern;
 #§§§§§§§§§§§§§ RESOURCES §§§§§§§§§§§§§
 
 func new_instance(id:String, instance:Node2D):
@@ -273,9 +258,20 @@ func update_custom_bullet_prop_data(props:BulletProps):
 		else: props.custom_data.erase(key)
 	return props
 
-func generate_new_bulletprops():
+func generate_new_bulletprops(myValues):
 	var props := BulletProps.new()
 	# manage custom data
+
+	#if myValues:
+		#props.damage = myValues.damage;
+		#props.speed = myValues.speed;
+		#props.scale = myValues.scale;
+		#
+		#if myValues.anim_idle:
+			#var animeState = animState.new();
+			#animeState.collision = myValues.anim_idle.collision;
+			#animeState.texture = myValues.anim_idle.texture;
+			#props.anim_idle = animeState;
 	if not self.custom_bullet_prop_data.is_empty():
 		return update_custom_bullet_prop_data(props)
 	return props
@@ -289,6 +285,7 @@ func generate_new_bulletnodeprops():
 
 # remove unnecessary bloat from bulletprops and return a clean dictionary
 func sanitize_bulletprops(props:PackedDataContainer, id:String, source:Node) -> Dictionary:
+	var test = props.get_property_list()
 	if not props is ObjectProps:
 		if props.homing_type == props.TARGET_TYPE.ListPositions:
 			props.homing_list = props.homing_list_pos.duplicate()

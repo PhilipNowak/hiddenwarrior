@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dadrvq5byu3o6"]
+
+[ext_resource type="PackedScene" uid="uid://cqeb43rfc0oip" path="res://Player/player.tscn" id="1_h2u33"]
+[ext_resource type="PackedScene" uid="uid://dc1prj3qo5tue" path="res://Abilities/playerAbilities/FireBall.tscn" id="2_f6yyk"]
+
+[node name="Simple" type="Node2D"]
+
+[node name="Player" parent="." node_paths=PackedStringArray("Ability1") instance=ExtResource("1_h2u33")]
+Ability1 = NodePath("FireBall")
+
+[node name="FireBall" parent="Player" instance=ExtResource("2_f6yyk")]

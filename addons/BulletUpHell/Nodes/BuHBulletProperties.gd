@@ -23,5 +23,5 @@ func _ready():
 	queue_free()
 
 func generate_bulletprops():
-	if not props: props = Spawning.generate_new_bulletprops()
+	if not props: props = Spawning.generate_new_bulletprops(null)
 	else: Spawning.update_custom_bullet_prop_data(props)
