@@ -1,11 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dadrvq5byu3o6"]
+[gd_scene load_steps=4 format=3 uid="uid://dadrvq5byu3o6"]
 
 [ext_resource type="PackedScene" uid="uid://cqeb43rfc0oip" path="res://Player/player.tscn" id="1_h2u33"]
-[ext_resource type="PackedScene" uid="uid://dc1prj3qo5tue" path="res://Abilities/playerAbilities/FireBall.tscn" id="2_f6yyk"]
+[ext_resource type="PackedScene" uid="uid://byi86y3dg243e" path="res://Enemy/Enemy.tscn" id="1_o4l25"]
+[ext_resource type="PackedScene" uid="uid://dc1prj3qo5tue" path="res://Abilities/playerAbilities/FireBall.tscn" id="3_e3738"]
 
 [node name="Simple" type="Node2D"]
+position = Vector2(500, 500)
+
+[node name="Enemy" parent="." instance=ExtResource("1_o4l25")]
+position = Vector2(744, -123)
 
 [node name="Player" parent="." node_paths=PackedStringArray("Ability1") instance=ExtResource("1_h2u33")]
 Ability1 = NodePath("FireBall")
 
-[node name="FireBall" parent="Player" instance=ExtResource("2_f6yyk")]
+[node name="FireBall" parent="Player" instance=ExtResource("3_e3738")]
+
+[node name="Enemy2" parent="." instance=ExtResource("1_o4l25")]
+position = Vector2(864, -127)

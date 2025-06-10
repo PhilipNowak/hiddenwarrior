@@ -250,6 +250,7 @@ func container(id:String):
 #### API for nodes ####
 
 func update_custom_bullet_prop_data(props:BulletProps):
+	print('update custom data')
 	for key in self.custom_bullet_prop_data:
 		if props.custom_data.has(key): continue
 		else: props.custom_data[key] = self.custom_bullet_prop_data[key]
@@ -285,7 +286,6 @@ func generate_new_bulletnodeprops():
 
 # remove unnecessary bloat from bulletprops and return a clean dictionary
 func sanitize_bulletprops(props:PackedDataContainer, id:String, source:Node) -> Dictionary:
-	var test = props.get_property_list()
 	if not props is ObjectProps:
 		if props.homing_type == props.TARGET_TYPE.ListPositions:
 			props.homing_list = props.homing_list_pos.duplicate()
@@ -387,6 +387,8 @@ func sanitize_bulletprops(props:PackedDataContainer, id:String, source:Node) -> 
 				$Drawers.add_child(new_node)
 
 		dict[P] = value
+		
+	dict["collisions"] = []
 	dict["__ID__"] = id
 	return dict
 
@@ -667,6 +669,7 @@ func set_spawn_data(queued_instance:Dictionary, bullet_props:Dictionary, pattern
 			queued_instance["spawn_pos"] = Vector2()
 			queued_instance["rotation"] = bullet_props.angle + ori_angle
 		"PatternCustomShape","PatternCustomPoints":
+			var test = pattern.pos;
 			queued_instance["spawn_pos"] = pattern.pos[i].rotated(forced_angle)
 			queued_instance["rotation"] = bullet_props.angle + pattern.angles[i] + ori_angle
 		"PatternCustomArea":
@@ -921,8 +924,10 @@ func unactive_spawn(bullets:Array[Dictionary]):
 
 func _spawn(bullets:Array[Dictionary]):
 	var props:Dictionary; var b
+	print(bullets.size());
 	for B:Dictionary in bullets:
 		b = B["RID"]
+		print(b);
 		if not poolBullets.has(b):
 			push_error("Warning: Bullet of ID "+str(b)+" is missing.")
 			continue
@@ -937,7 +942,13 @@ func _spawn(bullets:Array[Dictionary]):
 		if b is Node2D: # scene spawning
 			_spawn_object(b, B)
 		
-		props = B["props"]
+		props = B["props"];
+		var collisions = props["custom_data"]["collisions"];
+		if collisions.has(B["RID"]):
+			collisions[B["RID"]].clear();
+		else:
+			collisions[B["RID"]] = [];
+			
 		if b is RID or props.has("speed"):
 			if not change_animation(B,"spawn"):
 				B["state"] = BState.Spawning
@@ -1950,6 +1961,7 @@ func bullet_collide_area(area_rid:RID,area:Area2D,area_shape_index:int,local_sha
 func bullet_collide_body(body_rid:RID,body:Node,body_shape_index:int,local_shape_index:int,shared_area:Area2D) -> void:
 	var B:Dictionary
 	if shared_area.get_parent() == $SharedAreas:
+		var test = shared_area.get_meta("Bullets");
 		B = shared_area.get_meta("Bullets")[local_shape_index]
 	else: B = poolBullets[shared_area]
 

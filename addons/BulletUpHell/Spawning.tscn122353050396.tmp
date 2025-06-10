@@ -254,9 +254,6 @@ radius = 6.0
 [node name="BulletHellManager" type="Node2D"]
 z_index = 1
 script = ExtResource("1")
-custom_bullet_prop_data = {
-"collisions": {}
-}
 GROUP_BOUNCE = PackedStringArray("Bounce")
 default_idle = SubResource("Resource_s2qvk")
 default_spawn = SubResource("Resource_8yjii")

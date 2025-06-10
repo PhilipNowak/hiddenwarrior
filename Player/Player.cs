@@ -9,9 +9,10 @@ public partial class Player : CharacterBody2D
     public CustomShape CustomShape { get; set; }
     [Export]
     public Color Color { get; set; } = new Color(1, 1, 1); // Default color
-    public int Health { get; set; } = 100;
     [Export]
     public AbilityBase Ability1 { get; set; }
+    [Export]
+    public Stats Stats { get; set; }
 
     private float _speed = 200.0f;
 
@@ -59,22 +60,28 @@ public partial class Player : CharacterBody2D
 
     public void Hit(int damage)
     {
-        Health -= damage;
-        if (Health <= 0)
+        Stats.Health -= damage;
+        if (Stats.Health <= 0)
         {
             GD.Print("Player defeated");
             QueueFree(); // Remove the player from the scene
         }
         else
         {
-            GD.Print($"Player hit! Remaining health: {Health}");
+            GD.Print($"Player hit! Remaining health: {Stats.Health}");
         }
     }
 
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        PlayerInstance = this;
+    }
+
+
     public override void _Ready()
     {
-        CustomShape.Color = Color;
-        PlayerInstance = this;
+        CustomShape.Color = Color;      
     }    
     
 }

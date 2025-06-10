@@ -4,14 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://bloweor6ohwqe" path="res://Shapes/Square.tscn" id="2_btcbx"]
 [ext_resource type="Script" uid="uid://f5gimhpwj61j" path="res://Player/Stats.cs" id="3_btcbx"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("CustomShape", "Ability1")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("CustomShape", "Stats")]
 collision_layer = 2
 collision_mask = 21
 script = ExtResource("1_onrkg")
 CustomShape = NodePath("Square")
-Ability1 = NodePath("")
+Stats = NodePath("Stats")
 
 [node name="Square" parent="." instance=ExtResource("2_btcbx")]
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("3_btcbx")
+MaxHealth = 100
+ExtraProjectiles = 2

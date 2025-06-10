@@ -35,17 +35,27 @@ public partial class AbilityBase : Node
             OneShot = true
         };
         AddChild(CooldownTimer);
-        CooldownTimer.Timeout += CooldownEnd;
+        GD.Print("Before set up call");
+        SetUpAbility(Player.PlayerInstance.Stats);     
+    }
 
-        GD.Print("load spawnning resource");
+    protected virtual void UpdateAbility(Stats stats)
+    {
+        var nbr = Pattern.Get("nbr").As<int>();
+        Pattern.Set("nbr", nbr + stats.ExtraProjectiles);
+    }
 
-        Pattern.Set("bullet", Id);
-        var test = Spawning.GenerateNewBulletProps(Bullet, Id);
-        GD.Print(test);
-        var aaa = Spawning.CreateBulletPattern(Id, Pattern);
-        GD.Print(aaa);
-
+    private void SetUpAbility(Stats stats)
+    {
+        GD.Print("start set up call");
+        UpdateAbility(stats);
+        
+        Godot.Collections.Array<string> array = [Id];
+        Pattern.Set("bullet_list", array);
+        Spawning.GenerateNewBulletProps(Bullet, Id);
+        Spawning.CreateBulletPattern(Id, Pattern);
         Spawning.CreateBulletPool(Id, 300, BulletSpawner.Player);
+        CooldownTimer.Timeout += CooldownEnd;
     }
 
 
@@ -58,10 +68,13 @@ public partial class AbilityBase : Node
 
     public void Use()
     {
+
         if (IsOnCooldown)
         {
             return;
         }
+
+        GD.Print("past use");
 
         if (AbilityType == AbilityTypes.SpawnAtMouse)
         {

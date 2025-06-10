@@ -4,10 +4,9 @@ extends Area2D
 @export var ignore_children:Array[String] = []
 
 var textures:Array[Dictionary]
-var b:Dictionary
+var b:Dictionary;
 
 var base_scale:Vector2
-
 
 
 func _draw():

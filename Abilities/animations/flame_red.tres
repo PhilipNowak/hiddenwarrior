@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="animState" load_steps=2 format=3 uid="uid://cvy2shpjsx1ek"]
+
+[ext_resource type="Script" uid="uid://dnu6q404wm6qh" path="res://addons/BulletUpHell/Bullet/animStates.gd" id="1_mf1id"]
+
+[resource]
+script = ExtResource("1_mf1id")
+ID = ""
+texture = "flame_red"
+collision = "small_circle"
+SFX = ""
+tex_scale = 1.0
+tex_skew = 0.0
+metadata/_custom_type_script = "uid://dnu6q404wm6qh"

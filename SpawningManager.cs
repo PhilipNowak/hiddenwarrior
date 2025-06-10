@@ -62,7 +62,10 @@ public static class Spawning
 
     public static Variant GenerateNewBulletProps(PackedDataContainer bulletProps, string id)
     {
-        var sanitizedPattern = SpawningManager.Instance.Call("sanitize_bulletprops", bulletProps, id, SpawningManager.Instance);
+        GD.Print(bulletProps);
+        var updatedProps = SpawningManager.Instance.Call("update_custom_bullet_prop_data", bulletProps);
+        GD.Print(updatedProps);
+        var sanitizedPattern = SpawningManager.Instance.Call("sanitize_bulletprops", updatedProps, id, SpawningManager.Instance);
         var test = SpawningManager.Instance.Call("new_bullet", id, sanitizedPattern);
 
         return test;

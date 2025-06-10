@@ -1,28 +1,31 @@
-[gd_scene load_steps=10 format=3 uid="uid://dc1prj3qo5tue"]
+[gd_scene load_steps=10 format=3 uid="uid://bv3iopq08q5lx"]
 
-[ext_resource type="Script" uid="uid://vyke4e6p6ly" path="res://Abilities/AbilityBase.cs" id="1_pp5i1"]
-[ext_resource type="Script" uid="uid://s550ujaojqnm" path="res://addons/BulletUpHell/SpawnPatterns/PatternLine.gd" id="2_h7xb2"]
-[ext_resource type="Script" uid="uid://dnu6q404wm6qh" path="res://addons/BulletUpHell/Bullet/animStates.gd" id="3_1tb3n"]
-[ext_resource type="Resource" uid="uid://cvy2shpjsx1ek" path="res://Abilities/animations/flame_red.tres" id="3_hbxs5"]
-[ext_resource type="Script" uid="uid://c6c5hrthfwctu" path="res://addons/BulletUpHell/Bullet/BulletProps.gd" id="4_hbxs5"]
+[ext_resource type="Script" uid="uid://vyke4e6p6ly" path="res://Abilities/AbilityBase.cs" id="1_fvcvv"]
+[ext_resource type="Script" uid="uid://dkydukbjjmxys" path="res://addons/BulletUpHell/SpawnPatterns/PatternCircle.gd" id="2_bw3fm"]
+[ext_resource type="Resource" uid="uid://cvy2shpjsx1ek" path="res://Abilities/animations/flame_red.tres" id="3_ct8va"]
+[ext_resource type="Script" uid="uid://dnu6q404wm6qh" path="res://addons/BulletUpHell/Bullet/animStates.gd" id="3_oddd4"]
+[ext_resource type="Script" uid="uid://c6c5hrthfwctu" path="res://addons/BulletUpHell/Bullet/BulletProps.gd" id="4_ct8va"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_1tb3n"]
-resource_name = "PatternLine"
-script = ExtResource("2_h7xb2")
-offset = Vector2(50, 0)
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_8fppp"]
+resource_name = "PatternCircle"
+script = ExtResource("2_bw3fm")
+radius = 100.0
+angle_total = 2.0944
+angle_decal = 5.23599
 center = 0
-symmetric = true
+perspective = 1.0
+symmetric = false
 bullet = ""
-nbr = 1
+nbr = 8
 iterations = 1
-cooldown_spawn = 1.0
+cooldown_spawn = 0.1
 cooldown_shoot = 0.0
 cooldown_next_spawn = 0.0
 cooldown_next_shoot = 0.0
 cooldown_layers = PackedVector2Array()
 cooldown_stasis = false
 on_interruption = 0
-pattern_angle = 3.14159
+pattern_angle = 1.5708
 pattern_angle_target = NodePath("")
 pattern_angle_mouse = true
 wait_behavior = 0
@@ -34,34 +37,34 @@ forced_target = NodePath("")
 forced_lookat_mouse = true
 forced_pattern_lookat = true
 impulse = 0
-bullet_list = Array[String]([])
+bullet_list = Array[String]([""])
 skip_step = 0
 skip_list = Array[PackedInt32Array]([])
 skip_in_list = true
-metadata/_custom_type_script = "uid://s550ujaojqnm"
+metadata/_custom_type_script = "uid://dkydukbjjmxys"
 
-[sub_resource type="Curve" id="Curve_6470d"]
+[sub_resource type="Curve" id="Curve_gt7a0"]
 
-[sub_resource type="Curve" id="Curve_ukhft"]
+[sub_resource type="Curve" id="Curve_mvjsx"]
 
-[sub_resource type="PackedDataContainer" id="PackedDataContainer_8ejkv"]
-script = ExtResource("4_hbxs5")
+[sub_resource type="PackedDataContainer" id="PackedDataContainer_t7vte"]
+script = ExtResource("4_ct8va")
 damage = 1.0
-speed = 400.0
-scale = 5.0
+speed = 500.0
+scale = 2.0
 angle = 0.0
 groups = PackedStringArray()
 custom_data = {}
-death_after_time = 3.0
+death_after_time = 0.7
 death_outside_box = Rect2(0, 0, 0, 0)
-death_from_collision = false
+death_from_collision = true
 death_speed_under = 0.0
 death_culling_overwrite = 3
 spec_modulate_loop = 0.0
 no_rotation = false
 z_index = 0
-anim_idle = ExtResource("3_hbxs5")
-anim_more = Array[ExtResource("3_1tb3n")]([])
+anim_idle = ExtResource("3_ct8va")
+anim_more = Array[ExtResource("3_oddd4")]([])
 spec_trail_length = 0.0
 spec_trail_width = 0.0
 spec_trail_modulate = Color(1, 1, 1, 1)
@@ -73,7 +76,7 @@ a_angular_equation = ""
 a_curve_movement = 0
 a_speed_multi_iterations = 0
 a_speed_multi_scale = 0.0
-a_speed_multiplier = SubResource("Curve_6470d")
+a_speed_multiplier = SubResource("Curve_gt7a0")
 depth_active = Vector2(0, 0)
 depth_spawn = 0.0
 depth_speed = 100.0
@@ -85,7 +88,7 @@ spec_rotating_speed = 0.0
 spec_only_spin_sprite = true
 spec_weight = 1.0
 scale_multi_iterations = 0
-scale_multiplier = SubResource("Curve_ukhft")
+scale_multiplier = SubResource("Curve_mvjsx")
 scale_multi_scale = 1.0
 trigger_container = ""
 trigger_wait_for_shot = true
@@ -138,10 +141,9 @@ r_scale_multi_iter_variation = Vector3(0, 0, 0)
 r_scale_multi_scale_variation = Vector3(0, 0, 0)
 metadata/_custom_type_script = "uid://c6c5hrthfwctu"
 
-[node name="FireBall" type="Node"]
-script = ExtResource("1_pp5i1")
-Id = "FireBall"
+[node name="FlameBlast" type="Node"]
+script = ExtResource("1_fvcvv")
 CooldownTime = 0.5
-Pattern = SubResource("NavigationPolygon_1tb3n")
-Bullet = SubResource("PackedDataContainer_8ejkv")
+Pattern = SubResource("NavigationPolygon_8fppp")
+Bullet = SubResource("PackedDataContainer_t7vte")
 metadata/_custom_type_script = "uid://vyke4e6p6ly"
